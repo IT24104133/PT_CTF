@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Exhibit F</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="exhibit.css">
+  <link rel="stylesheet" href="splash.css">
+  <link rel="stylesheet" href="lab.css">
+  <script>
+    document.documentElement.className += ' js';
+    if (/[?&]intro=1(&|$)/.test(location.search)) document.documentElement.className += ' intro splash';
+  </script>
+</head>
+<body class="briefing exhibit exhibit-f">
+
+  <div id="splash" aria-hidden="true">
+    <div class="sp-grid"></div>
+    <div class="sp-ping"><i></i><i></i><i></i></div>
+
+    <section class="act a1" style="--tl:1.5s; --ts:2s">
+      <p class="sp-eyebrow">ACCESS GRANTED</p>
+      <h2 class="sp-title"><span style="--i:0">WELCOME</span> <span style="--i:1">TO</span> <span class="y" style="--i:2">STAGE 6</span></h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">THE LAST PIECE</p>
+    </section>
+
+    <section class="act a2" style="--tl:2.2s; --ts:2.6s">
+      <p class="sp-eyebrow">EXHIBIT F</p>
+      <h2 class="sp-title">
+        <span style="--i:0">"CACHED</span>
+        <span class="y" style="--i:1">EVIDENCE"</span>
+      </h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">( THUMBNAIL CACHE &amp; PREFETCH ANALYSIS )</p>
+    </section>
+
+    <div class="sp-dots"><i></i><i></i></div>
+    <button type="button" class="sp-skip" id="sp-skip">Skip</button>
+  </div>
+
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg14" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg14)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> EXHIBIT F &nbsp;/&nbsp; STAGE 6</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="title">
+      <p class="eyebrow">EXHIBIT F</p>
+      <h1>STAGE 6: <span>"CACHED EVIDENCE"</span></h1>
+      <p class="subtitle">( Thumbnail Cache &amp; Prefetch Analysis ) — CASE CLOSED</p>
+      <div class="stamp osint" aria-hidden="true">FINAL</div>
+    </section>
+
+    <div class="layout">
+
+      <div class="main-col">
+        <article class="story panel">
+          <div class="panel-h"><span>EXHIBIT F · CASE FILE</span><span class="mono">SOLSTICE DYNAMICS · SECURITY</span></div>
+
+          <p class="rv">Finally, a real break. A police contact recovers a laptop that matches your profile of the attacker — same time window, same digital fingerprints. It looks clean at first, like someone tried hard to erase what they'd done. The laptop is registered under a real name for the first time in this whole case: Arshb. Ghost_Fen finally has a face and a name behind the screen.</p>
+
+          <p class="rv">But deleting a file doesn't erase all trace of it. Hidden in the laptop's thumbnail cache is a photo with no matching file left on the disk — the original café photo that started this whole case. Someone deleted the evidence and forgot the cache still remembers it.</p>
+
+          <p class="rv">In the laptop's Prefetch folder, there's a second, quieter kind of proof: a record of every program this laptop ever ran, how many times, and exactly when each one last ran. Somewhere on that list is the tool Ghost_Fen used to break into the HR portal — and its timestamp lines up, almost to the minute, with the login Thahani's system flagged eleven days after that first photo was taken. A second timestamp, later on the list, sits much closer to the night Inchaf died than Thahani hoped it would.</p>
+
+          <blockquote class="rv quote">
+            <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+            "That's it," Thahani says quietly, looking at the timeline you've built — a café, a scouting photo, four security bugs, a signature in a log file, and now a tool and a timestamp that put him online within an hour of Inchaf's death. "That's everything I need to hand this to a detective, not just write up as a security report."
+          </blockquote>
+
+          <div class="task rv">
+            <span class="task-tag">TASK</span>
+            <p>→ Recover the orphaned thumbnail for the final flag, use Prefetch analysis to find the second most frequently used program, and find the exact last-run time of the intrusion tool.</p>
+          </div>
+        </article>
+
+        <div class="dl-row rv">
+          <a class="dl" href="/evidence/thumbcache.txt?download=1" download>
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+            Download thumbcache.txt
+          </a>
+          <a class="dl" href="/evidence/prefetch.txt?download=1" download>
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+            Download prefetch.txt
+          </a>
+        </div>
+
+        <div class="log-tabs rv">
+          <button type="button" class="log-tab on" id="tab-thumb">thumbcache.txt</button>
+          <button type="button" class="log-tab" id="tab-pref">prefetch.txt</button>
+        </div>
+        <div class="log-view rv" id="log-view">Loading...</div>
+
+        <!-- ===== answer form ===== -->
+        <section class="panel submit rv" id="submit-panel">
+          <div class="panel-h"><span>SUBMIT FINDINGS</span><span class="tag">SERVER VERIFIED</span></div>
+
+          <p class="notready-msg" id="notready">This stage is not ready yet. Check back soon.</p>
+
+          <form id="answers" autocomplete="off" novalidate>
+            <div class="qlist">
+              <div class="q">
+                <label class="qlabel" for="q-thumb"><b>Q1</b> What flag was recovered from the orphaned thumbnail?</label>
+                <label class="field" data-f="thumbFlag">
+                  <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4 4 3 3-2 4 3"/></svg></span>
+                  <input id="q-thumb" name="thumbFlag" type="text" placeholder="RP{...}" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="q">
+                <label class="qlabel" for="q-prog"><b>Q2</b> What is the second most frequently used program?</label>
+                <label class="field" data-f="program">
+                  <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg></span>
+                  <input id="q-prog" name="program" type="text" placeholder="Program name" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="q">
+                <label class="qlabel" for="q-last"><b>Q3</b> What is that program's exact last-run time?</label>
+                <label class="field" data-f="lastRun">
+                  <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+                  <input id="q-last" name="lastRun" type="text" placeholder="Date and time (YYYY-MM-DD HH:MM:SS)" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+            </div>
+
+            <button id="verify" class="login-btn" type="submit">
+              <span class="label">Verify findings</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>
+            </button>
+            <p id="status" class="hint" role="status" aria-live="polite">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <span id="status-text">All three answers must be right to close the case.</span>
+            </p>
+          </form>
+        </section>
+
+        <!-- ===== finished ===== -->
+        <section class="panel vault" id="vault" hidden>
+          <div class="panel-h"><span>CASE CLOSED</span><span class="tag ok-tag">ALL FINDINGS VERIFIED</span></div>
+          <div class="vault-body">
+            <svg class="lock" viewBox="0 0 64 64" aria-hidden="true">
+              <g class="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8"/></g>
+              <rect x="12" y="28" width="40" height="28" rx="6" class="body"/>
+              <circle cx="32" cy="41" r="4" class="keyhole"/>
+              <path d="M32 44v6" class="keyhole-stem"/>
+            </svg>
+            <div class="vault-txt">
+              <h2>Everything a detective needs.</h2>
+              <p id="vault-text">A cafe, a photo, four bugs, a signature in a log, and now a tool and a time.</p>
+              <div class="flagbox" id="flagbox" hidden>
+                <code id="flag" aria-live="polite"></code>
+                <button type="button" id="copy" class="copy">Copy</button>
+              </div>
+              <a class="login-btn next-stage" href="/epilogue.html?intro=1">
+                <svg viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></svg>
+                <span class="label">Read the epilogue</span>
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== sidebar ===== -->
+      <aside class="side">
+        <section class="panel">
+          <div class="panel-h"><span>CASE PROGRESS</span></div>
+          <ol class="track">
+            <li class="done"><i></i><div><b>Prologue</b><span>The Call</span></div></li>
+            <li class="done"><i></i><div><b>Stage 1</b><span>Where in the world</span></div></li>
+            <li class="done"><i></i><div><b>Stage 2</b><span>The devil's in the EXIF</span></div></li>
+            <li class="done"><i></i><div><b>Stage 3</b><span>Cracked login</span></div></li>
+            <li class="done"><i></i><div><b>Stage 4</b><span>Trusted input</span></div></li>
+            <li class="done"><i></i><div><b>Stage 5</b><span>Reading the logs</span></div></li>
+            <li class="active" id="t-s6"><i></i><div><b>Stage 6</b><span>Cached evidence</span></div></li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>WHAT TO FIND</span></div>
+          <ul class="obj" id="obj">
+            <li data-o="thumbFlag"><i></i> Flag in the orphaned thumbnail</li>
+            <li data-o="program"><i></i> Second most used program</li>
+            <li data-o="lastRun"><i></i> Its exact last-run time</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>EVIDENCE</span></div>
+          <div class="card-body col">
+            <p>Two exports from the recovered laptop: its thumbnail cache index and its Prefetch list.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script src="exhibit-f.js"></script>
+</body>
+</html>

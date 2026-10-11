@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Login</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="splash.css">
+  <script>
+    // First visit in this tab: play the welcome splash before the login page.
+    // Add ?splash=1 to the address to watch it again.
+    (function () {
+      var seen = false;
+      try { seen = sessionStorage.getItem('sx-splash') === '1'; } catch (e) {}
+      var force = /[?&]splash=1(&|$)/.test(location.search);
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if ((!seen || force) && !reduced) document.documentElement.className += ' splash';
+    })();
+  </script>
+</head>
+<body>
+
+<!-- Welcome splash: welcome, powered by, your game begins, advice. Then the login page. -->
+<div id="splash" aria-hidden="true">
+  <div class="sp-grid"></div>
+  <div class="sp-ping"><i></i><i></i><i></i></div>
+
+  <section class="act a1" style="--tl:1.7s; --ts:2.1s">
+    <svg class="sp-shield" viewBox="0 0 64 72">
+      <defs>
+        <linearGradient id="sgs" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+        </linearGradient>
+      </defs>
+      <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sgs)" stroke="#dbe9ff" stroke-width="3"/>
+      <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+      <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="32" cy="41" r="2.6" fill="#1145b8"/>
+    </svg>
+    <p class="sp-eyebrow">WELCOME TO</p>
+    <h2 class="sp-title"><span style="--i:0">SOLSTICE</span> <span class="y" style="--i:1">CTF</span></h2>
+    <div class="sp-line"></div>
+    <p class="sp-sub">THINK · ANALYZE · SOLVE</p>
+  </section>
+
+  <section class="act a2" style="--tl:1.5s">
+    <p class="sp-eyebrow">POWERED BY</p>
+    <h2 class="sp-title"><span style="--i:0">SLIIT</span> <span class="y" style="--i:1">STUDENTS</span></h2>
+    <div class="sp-line"></div>
+  </section>
+
+  <section class="act a3">
+    <p class="sp-eyebrow">ARE YOU READY?</p>
+    <h2 class="sp-title">
+      <span style="--i:0">YOUR</span>
+      <span style="--i:1">GAME</span>
+      <span style="--i:2">IS</span>
+      <span style="--i:3">NOW</span>
+      <span class="br" aria-hidden="true"></span>
+      <span class="y" style="--i:4">BEGINNING</span>
+    </h2>
+    <p class="sp-wish">We wish you the very best.</p>
+    <div class="sp-advice">
+      <p class="sp-adv-h">A FEW WORDS OF ADVICE</p>
+      <ul>
+        <li style="--k:0"><b>01</b><span>Look closely. The smallest detail can be the clue.</span></li>
+        <li style="--k:1"><b>02</b><span>Question everything, then check it twice.</span></li>
+        <li style="--k:2"><b>03</b><span>Stay patient. Every puzzle has a way in.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="sp-dots"><i></i><i></i><i></i></div>
+  <button type="button" class="sp-skip" id="sp-skip">Skip</button>
+</div>
+
+<input type="range" id="sound-volume" class="sound-volume sound-volume-fixed" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle sound-toggle-fixed" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button>
+<span class="out music-credit music-credit-fixed" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span>
+<div class="page">
+  <main class="main">
+
+    <!-- Right side scene. Drop your own photo at public/hero.jpg to replace the illustration. -->
+    <div class="hero" aria-hidden="true">
+      <svg class="scene" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2b1a0e"/><stop offset="1" stop-color="#7a4f2a"/>
+          </linearGradient>
+          <linearGradient id="win" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0b1730"/><stop offset="1" stop-color="#1a2438"/>
+          </linearGradient>
+          <linearGradient id="americano" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#5a1f0a"/><stop offset=".5" stop-color="#8a3a12"/><stop offset="1" stop-color="#4a1808"/>
+          </linearGradient>
+          <linearGradient id="cappu" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f4ede0"/><stop offset=".45" stop-color="#e9dcc4"/>
+            <stop offset=".46" stop-color="#4a2c1a"/><stop offset="1" stop-color="#25140b"/>
+          </linearGradient>
+          <radialGradient id="plate" cx=".5" cy=".45" r=".6">
+            <stop offset="0" stop-color="#f6efe3"/><stop offset="1" stop-color="#cfc5b3"/>
+          </radialGradient>
+          <radialGradient id="pastry" cx=".4" cy=".35" r=".7">
+            <stop offset="0" stop-color="#e2a95a"/><stop offset="1" stop-color="#a86a25"/>
+          </radialGradient>
+          <filter id="blur" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter>
+        </defs>
+
+        <rect width="900" height="800" fill="url(#wood)"/>
+        <rect width="900" height="230" fill="url(#win)"/>
+        <circle cx="210" cy="120" r="26" fill="#f2a93b" filter="url(#blur)" opacity=".9"/>
+        <rect x="620" y="0" width="240" height="190" rx="8" fill="#16233d" opacity=".8"/>
+        <text x="740" y="90" fill="#dfe8f5" fill-opacity=".85" font-size="64" font-style="italic"
+              font-family="Brush Script MT, Segoe Script, cursive" text-anchor="middle"
+              transform="rotate(-12 740 90)">Good Things</text>
+        <text x="760" y="150" fill="#dfe8f5" fill-opacity=".85" font-size="64" font-style="italic"
+              font-family="Brush Script MT, Segoe Script, cursive" text-anchor="middle"
+              transform="rotate(-12 760 150)">Cafe</text>
+
+        <!-- bag -->
+        <path d="M280 300 C300 190 520 170 700 210 C780 240 790 330 740 360 L300 380 Z" fill="#1e1611" opacity=".95"/>
+        <circle cx="560" cy="270" r="26" fill="none" stroke="#8a7a68" stroke-width="5" opacity=".7"/>
+
+        <!-- tray -->
+        <path d="M120 470 L800 440 L860 720 L150 790 Z" fill="#12100e" opacity=".92"/>
+
+        <!-- iced americano -->
+        <g>
+          <path d="M150 190 Q150 170 240 168 Q330 170 330 190 L312 560 Q240 585 168 560 Z" fill="url(#americano)"/>
+          <ellipse cx="240" cy="188" rx="90" ry="16" fill="#3a1408"/>
+          <g fill="#e7c9a0" opacity=".55">
+            <rect x="170" y="200" width="60" height="52" rx="10" transform="rotate(-8 200 226)"/>
+            <rect x="240" y="205" width="55" height="48" rx="10" transform="rotate(10 268 229)"/>
+            <rect x="200" y="255" width="58" height="50" rx="10" transform="rotate(6 229 280)"/>
+            <rect x="262" y="270" width="44" height="44" rx="10" transform="rotate(-12 284 292)"/>
+          </g>
+          <text x="238" y="410" fill="#f3e6d2" fill-opacity=".8" font-size="44" font-style="italic"
+                font-family="Brush Script MT, Segoe Script, cursive" text-anchor="middle"
+                transform="rotate(-72 238 410)">Good Things</text>
+          <path d="M165 200 L182 545" stroke="#fff" stroke-opacity=".18" stroke-width="8" stroke-linecap="round"/>
+        </g>
+
+        <!-- cappuccino -->
+        <g>
+          <path d="M560 150 Q560 130 660 128 Q765 130 765 150 L740 580 Q660 605 585 580 Z" fill="url(#cappu)"/>
+          <ellipse cx="662" cy="150" rx="100" ry="22" fill="#f6efe2"/>
+          <g fill="#6b3a1f" opacity=".85">
+            <circle cx="620" cy="146" r="3"/><circle cx="640" cy="140" r="4"/><circle cx="668" cy="148" r="3"/>
+            <circle cx="690" cy="142" r="4"/><circle cx="712" cy="150" r="3"/><circle cx="655" cy="158" r="3"/>
+            <circle cx="700" cy="158" r="3"/><circle cx="630" cy="158" r="2"/><circle cx="678" cy="136" r="3"/>
+          </g>
+          <text x="668" y="470" fill="#e9d8bd" fill-opacity=".55" font-size="42" font-style="italic"
+                font-family="Brush Script MT, Segoe Script, cursive" text-anchor="middle"
+                transform="rotate(-72 668 470)">Good Things</text>
+        </g>
+
+        <!-- receipt -->
+        <g transform="rotate(4 480 340)">
+          <rect x="385" y="205" width="205" height="375" rx="4" fill="#f4f1ea"/>
+          <text x="487" y="245" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a1a"
+                font-family="Courier New, monospace">Good Things Cafe</text>
+          <text x="487" y="264" text-anchor="middle" font-size="9.5" fill="#444"
+                font-family="Courier New, monospace">Coffee • Pastries • Good Vibes</text>
+          <g font-family="Courier New, monospace" font-size="12" fill="#222">
+            <text x="402" y="300">Table 6</text>
+            <text x="402" y="318">2026-08-12  10:24 AM</text>
+            <text x="402" y="352">Iced Americano</text><text x="570" y="352" text-anchor="end">4.50</text>
+            <text x="402" y="378">Cappuccino</text><text x="570" y="378" text-anchor="end">4.50</text>
+            <text x="402" y="404">Pastry</text><text x="570" y="404" text-anchor="end">6.00</text>
+          </g>
+          <line x1="402" y1="420" x2="570" y2="420" stroke="#999" stroke-dasharray="3 3"/>
+          <text x="487" y="444" text-anchor="middle" font-size="13" fill="#222"
+                font-family="Courier New, monospace">Thank you! ☺</text>
+          <!-- QR code: multiply blend turns its white into the receipt paper color; the paper is the quiet zone -->
+          <image href="qr.gif" x="437" y="459" width="100" height="100" style="image-rendering: pixelated; mix-blend-mode: multiply"/>
+        </g>
+
+        <!-- plate + pastries -->
+        <ellipse cx="480" cy="690" rx="330" ry="105" fill="url(#plate)"/>
+        <ellipse cx="480" cy="690" rx="270" ry="80" fill="none" stroke="#fff" stroke-opacity=".5"/>
+        <ellipse cx="350" cy="650" rx="140" ry="62" fill="url(#pastry)"/>
+        <path d="M245 640 C265 590 420 585 455 625 C470 660 410 690 335 690 C265 690 235 670 245 640 Z" fill="#fbf7ee"/>
+        <g fill="#f0e6d0" opacity=".9">
+          <circle cx="300" cy="628" r="9"/><circle cx="345" cy="615" r="11"/><circle cx="395" cy="628" r="9"/>
+          <circle cx="330" cy="660" r="10"/><circle cx="380" cy="660" r="9"/>
+        </g>
+        <ellipse cx="640" cy="690" rx="105" ry="52" fill="#d9a55a"/>
+        <ellipse cx="640" cy="680" rx="88" ry="38" fill="#f7f0e0"/>
+        <ellipse cx="655" cy="662" rx="38" ry="18" fill="#f3c83a"/>
+        <ellipse cx="655" cy="662" rx="26" ry="10" fill="#f9e27a"/>
+        <g stroke="#3d6b2c" stroke-width="4" stroke-linecap="round">
+          <path d="M585 690 L700 668"/><path d="M600 700 L715 690"/><path d="M595 682 L690 655"/>
+        </g>
+
+        <!-- contractor badge -->
+        <g transform="rotate(-14 800 600)">
+          <rect x="690" y="500" width="260" height="190" rx="14" fill="#c9cfd8"/>
+          <rect x="700" y="510" width="240" height="170" rx="10" fill="#e6eaf0"/>
+          <rect x="785" y="486" width="70" height="22" rx="6" fill="#2b3340"/>
+          <rect x="722" y="548" width="34" height="34" rx="6" fill="#2f6fe0"/>
+          <path d="M730 566 L738 558 L748 566 L740 574 Z" fill="#fff" opacity=".9"/>
+          <text x="768" y="562" font-size="16" font-weight="800" fill="#1b2b4a" font-family="Arial, sans-serif">SOLSTICE</text>
+          <text x="768" y="580" font-size="14" font-weight="700" fill="#1b2b4a" font-family="Arial, sans-serif">DYNAMICS</text>
+          <text x="722" y="630" font-size="19" font-weight="700" fill="#222" font-family="Arial, sans-serif">Contractor</text>
+          <g fill="#111">
+            <rect x="722" y="645" width="3" height="24"/><rect x="729" y="645" width="2" height="24"/>
+            <rect x="735" y="645" width="4" height="24"/><rect x="744" y="645" width="2" height="24"/>
+            <rect x="751" y="645" width="3" height="24"/><rect x="759" y="645" width="5" height="24"/>
+            <rect x="769" y="645" width="2" height="24"/><rect x="776" y="645" width="3" height="24"/>
+            <rect x="784" y="645" width="2" height="24"/><rect x="791" y="645" width="4" height="24"/>
+            <rect x="800" y="645" width="3" height="24"/><rect x="808" y="645" width="2" height="24"/>
+            <rect x="815" y="645" width="4" height="24"/><rect x="824" y="645" width="2" height="24"/>
+            <rect x="831" y="645" width="3" height="24"/><rect x="839" y="645" width="5" height="24"/>
+            <rect x="849" y="645" width="2" height="24"/><rect x="856" y="645" width="3" height="24"/>
+          </g>
+        </g>
+      </svg>
+      <div class="hero-photo"></div>
+    </div>
+
+    <!-- Decorative contour lines -->
+    <svg class="contours" viewBox="0 0 300 300" aria-hidden="true">
+      <g fill="none" stroke="#1f6fff" stroke-opacity=".35" stroke-width="1">
+        <path d="M0 40 C60 60 110 120 130 200 C140 250 150 280 170 300"/>
+        <path d="M0 70 C50 90 90 140 105 210 C112 250 120 280 135 300"/>
+        <path d="M0 100 C40 120 70 160 82 215 C88 250 95 280 105 300"/>
+        <path d="M0 130 C30 148 52 180 60 225 C64 255 68 280 76 300"/>
+        <path d="M0 160 C20 174 34 198 40 232 C43 258 46 282 50 300"/>
+      </g>
+    </svg>
+
+    <section class="left">
+      <div class="brand">
+        <svg class="shield" viewBox="0 0 64 72" aria-hidden="true">
+          <defs>
+            <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg)" stroke="#dbe9ff" stroke-width="3"/>
+          <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+          <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="32" cy="41" r="2.6" fill="#1145b8"/>
+        </svg>
+        <div>
+          <div class="wordmark">SOLSTICE <span>CTF</span></div>
+          <div class="tagline">THINK <i>•</i> ANALYZE <i>•</i> SOLVE</div>
+        </div>
+      </div>
+
+      <h1>Welcome to Solstice <span>CTF</span></h1>
+      <p class="lead">Your mind is the strongest tool. Find the credentials to unlock your journey.</p>
+
+      <a class="entry-puzzle-link" href="entry-gate.html">Open the entry gate →</a>
+
+      <form id="login" class="card" autocomplete="off" novalidate>
+        <label class="field">
+          <span class="ico">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          </span>
+          <input id="username" name="username" type="text" placeholder="Username"
+                 autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200" required>
+          <button type="button" class="eye" data-target="username" aria-label="Show or hide username"></button>
+        </label>
+
+        <label class="field">
+          <span class="ico">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1"/></svg>
+          </span>
+          <input id="password" name="password" type="password" placeholder="Password"
+                 autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200" required>
+          <button type="button" class="eye" data-target="password" aria-label="Show or hide password"></button>
+        </label>
+
+        <button id="submit" class="login-btn" type="submit">
+          <span class="label">Login</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+
+        <p id="hint" class="hint" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <span id="hint-text">Recover the credentials from the entry gate first.</span>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="steps">
+    <div class="step" id="step1">
+      <div class="badge on">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      </div>
+      <div class="txt">
+        <strong>Stage 1</strong>
+        <em><b>Find the hidden</b> credentials</em>
+        <span class="pill available" id="pill1">Available</span>
+      </div>
+    </div>
+    <svg class="arrow live" viewBox="0 0 40 12"><path d="M0 6h36M31 1l5 5-5 5"/></svg>
+
+    <div class="step" id="step2">
+      <div class="badge">
+        <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <div class="txt">
+        <strong>Login</strong>
+        <em>Use the credentials you find</em>
+        <span class="pill" id="pill2">Locked</span>
+      </div>
+    </div>
+    <svg class="arrow" viewBox="0 0 40 12"><path d="M0 6h36M31 1l5 5-5 5"/></svg>
+
+    <div class="step" id="step3">
+      <div class="badge">
+        <svg viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></svg>
+      </div>
+      <div class="txt">
+        <strong>Stage 2</strong>
+        <em>Complete the next challenge</em>
+        <span class="pill" id="pill3">Locked</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script src="splash.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

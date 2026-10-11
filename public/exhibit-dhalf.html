@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Exhibit D½</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="exhibit.css">
+  <link rel="stylesheet" href="splash.css">
+  <script>
+    document.documentElement.className += ' js';
+    if (/[?&]intro=1(&|$)/.test(location.search)) document.documentElement.className += ' intro splash';
+  </script>
+</head>
+<body class="briefing exhibit exhibit-dhalf">
+
+  <div id="splash" aria-hidden="true">
+    <div class="sp-grid"></div>
+    <div class="sp-ping"><i></i><i></i><i></i></div>
+
+    <section class="act a1" style="--tl:1.6s; --ts:2.1s">
+      <p class="sp-eyebrow">TWO DAYS LATER</p>
+      <h2 class="sp-title"><span style="--i:0">THE</span> <span style="--i:1">PHONE</span> <span class="y" style="--i:2">RINGS</span></h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">EARLIER THAN USUAL</p>
+    </section>
+
+    <section class="act a2" style="--tl:2.4s; --ts:2.8s">
+      <p class="sp-eyebrow">EXHIBIT D½</p>
+      <h2 class="sp-title">
+        <span style="--i:0">A</span>
+        <span style="--i:1">NAME</span>
+        <span style="--i:2">BECOMES</span>
+        <span class="br" aria-hidden="true"></span>
+        <span class="y" style="--i:3">A BODY</span>
+      </h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">THE CASE JUST CHANGED</p>
+    </section>
+
+    <div class="sp-dots"><i></i><i></i></div>
+    <button type="button" class="sp-skip" id="sp-skip">Skip</button>
+  </div>
+
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg12" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg12)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> EXHIBIT D½</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="title">
+      <p class="eyebrow">EXHIBIT D½</p>
+      <h1>A NAME <span>BECOMES A BODY</span></h1>
+      <div class="stamp" style="color:rgba(255,107,107,.85); border-color:rgba(255,107,107,.7)" aria-hidden="true">DEVELOPING</div>
+    </section>
+
+    <div class="layout" style="grid-template-columns: minmax(0,1fr)">
+
+      <div class="main-col">
+        <article class="story panel">
+          <div class="panel-h"><span>CASE UPDATE</span><span class="mono">SOLSTICE DYNAMICS · SECURITY</span></div>
+
+          <p class="rv">Two days into the investigation, Thahani calls you in early. Her face looks different this time — tighter, more serious.</p>
+
+          <blockquote class="rv quote">
+            <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+            "Inchaf didn't come to work this morning," she says. "Building security checked on him. He's dead. He was found in his flat last night. Police are calling it an accident for now, but the timing —" She doesn't finish the sentence. She doesn't need to.
+          </blockquote>
+
+          <p class="rv">This case just changed. It isn't only about stolen software anymore.</p>
+
+          <p class="rv">If Ghost_Fen used Inchaf to get access — a password, a badge, someone looking the other way at the right moment — and Inchaf became a problem once the breach was found, then "accident" is a word Thahani isn't ready to believe. She can't get the police to reopen the case on a feeling alone. She needs a timeline. A clear, minute-by-minute record of where Ghost_Fen was online around the time Inchaf died.</p>
+
+          <p class="rv">That timeline is sitting in the evidence you still haven't finished checking.</p>
+
+          <blockquote class="rv quote">
+            <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+            "Finish the logs," Thahani says. "Finish the laptop. I need to know if he was online when Inchaf died. And if he was, I need proof strong enough for a detective, not just a security report."
+          </blockquote>
+
+          <div class="cta rv">
+            <button id="continue-btn" class="login-btn" type="button">
+              <span class="label">Continue</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p id="continue-err" class="accept-err" role="alert" hidden></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <script src="exhibit-dhalf.js"></script>
+</body>
+</html>

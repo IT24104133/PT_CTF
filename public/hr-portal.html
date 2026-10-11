@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice Dynamics | HR Portal (Staging)</title>
+  <link rel="stylesheet" href="hr-portal.css">
+</head>
+<body>
+  <div class="hp-banner">STAGING ENVIRONMENT &middot; INTERNAL USE ONLY &middot; migration ticket HR-2281</div>
+  <header class="hp-top">
+    <div class="hp-brand">
+      <span class="mark">SD</span>
+      <span>Solstice Dynamics<small>Employee &amp; HR Portal</small></span>
+    </div>
+    <div class="hp-user" id="hp-user-line">Not signed in</div>
+  </header>
+
+  <main class="hp-wrap">
+
+    <!-- ===== gate ===== -->
+    <section class="hp-card hp-gate" id="hp-gate">
+      <h1>Staging access</h1>
+      <p class="hp-lead">This build isn't public yet. If you were given a staging code in your ticket, enter it below to continue.</p>
+      <div class="hp-field">
+        <label for="hp-code">Access code</label>
+        <input id="hp-code" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. SDX-VPN-####">
+      </div>
+      <button class="hp-btn" id="hp-enter" type="button">Continue</button>
+      <div id="hp-gate-msg"></div>
+    </section>
+
+    <!-- ===== locked (session not far enough along) ===== -->
+    <section class="hp-card" id="hp-locked" hidden>
+      <h1>Not available yet</h1>
+      <p class="hp-lead" id="hp-locked-msg">This part of the case isn't open yet. Go back and continue the story first.</p>
+    </section>
+
+    <!-- ===== app ===== -->
+    <section id="hp-app" hidden>
+      <div class="hp-tabs">
+        <button class="hp-tab on" id="tab-btn-login" type="button" data-tab="login">Employee Login</button>
+        <button class="hp-tab" id="tab-btn-search" type="button" data-tab="search" data-locked="1">Directory Search</button>
+        <button class="hp-tab" id="tab-btn-import" type="button" data-tab="import" data-locked="1" hidden>Bulk Import</button>
+      </div>
+
+      <!-- Login -->
+      <section class="hp-card hp-panel on" id="tab-login">
+        <h2>Employee sign-in</h2>
+        <p class="hp-lead">Session tools have been unreliable since the last patch. IT is aware.</p>
+        <div class="hp-row">
+          <div class="hp-field">
+            <label for="hp-user">Username</label>
+            <input id="hp-user" type="text" autocomplete="off" spellcheck="false" maxlength="300">
+          </div>
+          <div class="hp-field">
+            <label for="hp-pass">Password</label>
+            <input id="hp-pass" type="text" autocomplete="off" spellcheck="false" maxlength="300">
+          </div>
+          <button class="hp-btn" id="hp-login-go" type="button">Sign in</button>
+        </div>
+        <div id="hp-login-msg"></div>
+        <details class="hp-debug" id="hp-login-debug" hidden>
+          <summary>Debug &middot; staging build only</summary>
+          <pre id="hp-login-sql"></pre>
+        </details>
+      </section>
+
+      <!-- Search -->
+      <section class="hp-card hp-panel" id="tab-search">
+        <h2>Employee directory</h2>
+        <p class="hp-lead">Search by name or role, optionally narrowed to one department.</p>
+        <div class="hp-stats">
+          <span class="hp-stat"><b id="hp-stat-count">—</b> employees</span>
+          <span class="hp-stat"><b id="hp-stat-depts">—</b> departments</span>
+          <span class="hp-stat">Directory synced nightly from Workday</span>
+        </div>
+        <div class="hp-row">
+          <div class="hp-field">
+            <label for="hp-q">Search</label>
+            <input id="hp-q" type="text" autocomplete="off" spellcheck="false" maxlength="300">
+          </div>
+          <div class="hp-field">
+            <label for="hp-dept">Department</label>
+            <select id="hp-dept">
+              <option value="">All departments</option>
+              <option value="HR">HR</option>
+              <option value="IT">IT</option>
+              <option value="Finance">Finance</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Sales">Sales</option>
+              <option value="Legal">Legal</option>
+              <option value="Facilities">Facilities</option>
+              <option value="Executive">Executive</option>
+            </select>
+          </div>
+          <button class="hp-btn" id="hp-search-go" type="button">Search</button>
+        </div>
+        <div id="hp-search-msg"></div>
+        <table class="hp-table hp-hidden" id="hp-search-table">
+          <thead><tr><th>Name</th><th>Role</th><th>Department</th></tr></thead>
+          <tbody id="hp-search-rows"></tbody>
+        </table>
+        <details class="hp-debug" id="hp-search-debug" hidden>
+          <summary>Debug &middot; staging build only</summary>
+          <pre id="hp-search-sql"></pre>
+        </details>
+      </section>
+
+      <!-- Import -->
+      <section class="hp-card hp-panel" id="tab-import">
+        <h2>Bulk employee import</h2>
+        <p class="hp-lead">Paste an XML file to import a single employee record.</p>
+        <div class="hp-field">
+          <label for="hp-xml">XML document</label>
+          <textarea id="hp-xml" spellcheck="false" placeholder='&lt;?xml version="1.0"?&gt;&#10;&lt;employees&gt;&lt;employee&gt;&lt;name&gt;Test&lt;/name&gt;&lt;role&gt;QA&lt;/role&gt;&lt;/employee&gt;&lt;/employees&gt;'></textarea>
+        </div>
+        <button class="hp-btn" id="hp-import-go" type="button">Import</button>
+        <div id="hp-import-msg"></div>
+      </section>
+
+      <p class="hp-foot">This tab was opened from the Solstice CTF case file. You can close it and return there any time — progress here is saved to your case session.</p>
+    </section>
+
+  </main>
+
+  <script src="hr-portal.js"></script>
+</body>
+</html>

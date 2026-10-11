@@ -1,0 +1,36 @@
+# Runs the CTF as a systemd service: auto-starts on boot, auto-restarts on crash.
+#
+# Install:
+#   sudo cp deploy/solstice-ctf.service /etc/systemd/system/
+#   sudo useradd --system --home /opt/solstice-ctf --shell /usr/sbin/nologin solstice-ctf
+#   sudo chown -R solstice-ctf:solstice-ctf /opt/solstice-ctf
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now solstice-ctf
+
+[Unit]
+Description=Solstice CTF
+After=network.target
+
+[Service]
+Type=simple
+User=solstice-ctf
+Group=solstice-ctf
+WorkingDirectory=/opt/solstice-ctf
+ExecStart=/usr/bin/node src/server.js
+Environment=PORT=3000
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=5
+
+# Node's http.Server#listen(PORT) with no host argument binds ALL interfaces, not just loopback --
+# port 3000 is reachable directly from the internet unless the firewall blocks it. This unit does
+# not open the firewall for you: only 22/80/443 should ever be allowed externally (see the runbook
+# in docs/SOLSTICE_CASE_FILE.pdf, Part III). Caddy/nginx reach the app via 127.0.0.1:3000.
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/solstice-ctf/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

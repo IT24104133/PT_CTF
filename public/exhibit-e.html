@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Exhibit E</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="exhibit.css">
+  <link rel="stylesheet" href="splash.css">
+  <link rel="stylesheet" href="lab.css">
+  <script>
+    document.documentElement.className += ' js';
+    if (/[?&]intro=1(&|$)/.test(location.search)) document.documentElement.className += ' intro splash';
+  </script>
+</head>
+<body class="briefing exhibit exhibit-e">
+
+  <div id="splash" aria-hidden="true">
+    <div class="sp-grid"></div>
+    <div class="sp-ping"><i></i><i></i><i></i></div>
+
+    <section class="act a1" style="--tl:1.5s; --ts:2s">
+      <p class="sp-eyebrow">ACCESS GRANTED</p>
+      <h2 class="sp-title"><span style="--i:0">WELCOME</span> <span style="--i:1">TO</span> <span class="y" style="--i:2">STAGE 5</span></h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">THE SERVER REMEMBERS EVERYTHING</p>
+    </section>
+
+    <section class="act a2" style="--tl:2.2s; --ts:2.6s">
+      <p class="sp-eyebrow">EXHIBIT E</p>
+      <h2 class="sp-title">
+        <span style="--i:0">"READING</span>
+        <span style="--i:1">THE</span>
+        <span class="y" style="--i:2">LOGS"</span>
+      </h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">( APACHE LOG ANALYSIS )</p>
+    </section>
+
+    <div class="sp-dots"><i></i><i></i></div>
+    <button type="button" class="sp-skip" id="sp-skip">Skip</button>
+  </div>
+
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg13" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg13)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> EXHIBIT E &nbsp;/&nbsp; STAGE 5</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="title">
+      <p class="eyebrow">EXHIBIT E</p>
+      <h1>STAGE 5: <span>"READING THE LOGS"</span></h1>
+      <p class="subtitle">( Apache Log Analysis )</p>
+      <div class="stamp osint" aria-hidden="true">LOGS</div>
+    </section>
+
+    <div class="layout">
+
+      <div class="main-col">
+        <article class="story panel">
+          <div class="panel-h"><span>EXHIBIT E · CASE FILE</span><span class="mono">SOLSTICE DYNAMICS · SECURITY</span></div>
+
+          <p class="rv">The server's records don't lie, even when everything else about this case feels uncertain. Thahani gives you the full access and error logs from the HR portal, covering the whole time of the breach — thousands of lines, most of them normal, but a few of them very important.</p>
+
+          <blockquote class="rv quote">
+            <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+            "He was careful in some places and careless in others," Thahani says. "That tells me he was working fast, maybe under pressure. Find his IP address. Find anything else he left behind without meaning to."
+          </blockquote>
+
+          <p class="rv">Every timestamp in these logs matters more now than it did before Inchaf died. Each one could be proof — or the lack of it.</p>
+
+          <p class="rv">Hidden inside a User-Agent string, of all places, is something that looks less like a mistake and more like a signature. Like he wanted someone, eventually, to know he'd been there.</p>
+
+          <div class="task rv">
+            <span class="task-tag">TASK</span>
+            <p>→ Match the attack traffic to the four bugs from Stages 3 and 4, find the attacker's IP address, and find the flag hidden in a custom User-Agent header.</p>
+          </div>
+        </article>
+
+        <div class="dl-row rv">
+          <a class="dl" id="dl-access" href="/evidence/access.log?download=1" download>
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+            Download access.log
+          </a>
+          <a class="dl" id="dl-error" href="/evidence/error.log?download=1" download>
+            <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+            Download error.log
+          </a>
+        </div>
+
+        <div class="log-tabs rv">
+          <button type="button" class="log-tab on" id="tab-access">access.log</button>
+          <button type="button" class="log-tab" id="tab-error">error.log</button>
+          <label class="field" data-f="log-find" style="flex:1 1 200px; height:34px; margin:0 0 0 auto; max-width:260px">
+            <span class="ico" style="width:34px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>
+            <input id="log-find" type="text" placeholder="Highlight text..." autocapitalize="off" spellcheck="false" style="font-size:13px">
+          </label>
+        </div>
+        <div class="log-view rv" id="log-view">Loading...</div>
+        <p class="b-note rv" style="margin:0 clamp(18px,3vw,36px) 24px">Tip: every line from the same IP tells the same story. Look for what is repeated, and for what is written only once.</p>
+
+        <!-- ===== answer form ===== -->
+        <section class="panel submit rv" id="submit-panel">
+          <div class="panel-h"><span>SUBMIT FINDINGS</span><span class="tag" id="tries-tag">SERVER VERIFIED</span></div>
+
+          <p class="notready-msg" id="notready">This stage is not ready yet. Check back soon.</p>
+
+          <form id="answers" autocomplete="off" novalidate>
+            <div class="qlist">
+              <div class="q">
+                <label class="qlabel" for="q-ip"><b>Q1</b> What is the attacker's IP address?</label>
+                <label class="field" data-f="attackerIp">
+                  <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 8h8v8H8z"/></svg></span>
+                  <input id="q-ip" name="attackerIp" type="text" placeholder="0.0.0.0" maxlength="60" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+              <div class="q">
+                <label class="qlabel" for="q-uaflag"><b>Q2</b> What flag is hidden in the User-Agent string?</label>
+                <label class="field" data-f="uaFlag">
+                  <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg></span>
+                  <input id="q-uaflag" name="uaFlag" type="text" placeholder="RP{...}" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+            </div>
+
+            <button id="verify" class="login-btn" type="submit">
+              <span class="label">Verify findings</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>
+            </button>
+            <p id="status" class="hint" role="status" aria-live="polite">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <span id="status-text">Both answers must be right to finish Stage 5.</span>
+            </p>
+          </form>
+        </section>
+
+        <!-- ===== finished ===== -->
+        <section class="panel vault" id="vault" hidden>
+          <div class="panel-h"><span>STAGE 5 · COMPLETE</span><span class="tag ok-tag">ALL FINDINGS VERIFIED</span></div>
+          <div class="vault-body">
+            <svg class="lock" viewBox="0 0 64 64" aria-hidden="true">
+              <g class="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8"/></g>
+              <rect x="12" y="28" width="40" height="28" rx="6" class="body"/>
+              <circle cx="32" cy="41" r="4" class="keyhole"/>
+              <path d="M32 44v6" class="keyhole-stem"/>
+            </svg>
+            <div class="vault-txt">
+              <h2>The logs remembered him.</h2>
+              <p id="vault-text">Now there's an IP address, and a mark he left on purpose.</p>
+              <div class="flagbox" id="flagbox" hidden>
+                <code id="flag" aria-live="polite"></code>
+                <button type="button" id="copy" class="copy">Copy</button>
+              </div>
+              <a class="login-btn next-stage" href="/gate-6.html">
+                <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                <span class="label">Go to Stage 6</span>
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== sidebar ===== -->
+      <aside class="side">
+        <section class="panel">
+          <div class="panel-h"><span>CASE PROGRESS</span></div>
+          <ol class="track">
+            <li class="done"><i></i><div><b>Prologue</b><span>The Call</span></div></li>
+            <li class="done"><i></i><div><b>Stage 1</b><span>Where in the world</span></div></li>
+            <li class="done"><i></i><div><b>Stage 2</b><span>The devil's in the EXIF</span></div></li>
+            <li class="done"><i></i><div><b>Stage 3</b><span>Cracked login</span></div></li>
+            <li class="done"><i></i><div><b>Stage 4</b><span>Trusted input</span></div></li>
+            <li class="active" id="t-s5"><i></i><div><b>Stage 5</b><span>Reading the logs</span></div></li>
+            <li class="locked"><i></i><div><b>Stage 6</b><span>Cached evidence</span></div></li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>WHAT TO FIND</span></div>
+          <ul class="obj" id="obj">
+            <li data-o="attackerIp"><i></i> Attacker's IP address</li>
+            <li data-o="uaFlag"><i></i> Flag in the User-Agent</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>EVIDENCE</span></div>
+          <div class="card-body col">
+            <p>Two log files from the HR portal: every request in access.log, every warning in error.log.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script src="exhibit-e.js"></script>
+</body>
+</html>

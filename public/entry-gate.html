@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Entry Gate</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="entry-gate.js" defer></script>
+</head>
+<body>
+  <main class="entry-page">
+    <a class="entry-back" href="/">← Back to login</a>
+    <section class="entry-clue" aria-labelledby="entry-clue-title">
+      <p class="entry-clue-label">STAGE 1 · ENTRY GATE</p>
+      <h1 id="entry-clue-title">Recover the credentials</h1>
+      <p>Two encrypted lines stand between you and the case. Recover the username and password, then return to the login page.</p>
+      <dl class="entry-clue-values">
+        <div><dt>Encrypted username</dt><dd><code>REBAQE5IWk1OJSUkUkFCQQ==</code></dd></div>
+        <div><dt>Encrypted password</dt><dd><code>ISkhKSEpISkhKVlTV0FNXyVeJV4kI14mKlRSQUwjQCM=</code></dd></div>
+      </dl>
+      <button class="entry-hint-button" id="entry-hint-toggle" type="button" aria-expanded="false" aria-controls="entry-hint">Hint</button>
+      <div id="entry-hint" class="entry-hint-content" hidden>
+        <p>First decode each line from Base64. Then decrypt it with the Vigenère cipher using the key <strong>GHOST</strong>. Only letters are shifted; symbols stay unchanged and do not advance the key. Keep the original capitalization and every symbol when logging in.</p>
+      </div>
+      <a class="login-btn entry-login-link" href="/">Continue to login →</a>
+    </section>
+  </main>
+</body>
+</html>

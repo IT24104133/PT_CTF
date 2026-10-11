@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CTF Admin — internal only</title>
+<style>
+  :root { --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#2f81f7; --ok:#3fb950; --err:#f85149; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 -apple-system,'Segoe UI',sans-serif; padding:24px; }
+  h1 { font-size:18px; margin:0 0 4px; }
+  .warn { color:var(--muted); font-size:12.5px; margin:0 0 20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:20px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px 18px; }
+  .card h2 { font-size:13px; margin:0 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; }
+  .card p { margin:0 0 12px; color:var(--muted); font-size:12.5px; }
+  button { background:var(--accent); color:#fff; border:none; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; font-size:12.5px; }
+  button.danger { background:var(--err); }
+  button:disabled { opacity:0.5; cursor:not-allowed; }
+  button:hover:not(:disabled) { filter:brightness(1.1); }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  th { color:var(--muted); font-weight:600; }
+  .flag { display:inline-block; width:14px; height:14px; border-radius:3px; text-align:center; line-height:14px; font-size:10px; font-weight:700; }
+  .flag.on { background:var(--ok); color:#001a06; }
+  .flag.off { background:#21262d; color:var(--muted); }
+  #msg { font-size:12.5px; margin-top:10px; min-height:18px; }
+  #msg.ok { color:var(--ok); }
+  #msg.err { color:var(--err); }
+  code { background:#21262d; padding:1px 5px; border-radius:4px; font-size:11.5px; }
+</style>
+</head>
+<body>
+  <h1>CTF Admin</h1>
+  <p class="warn">Developer-only. Not linked from anywhere in the app. Only reachable from localhost.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Reset Progress</h2>
+      <p>Clears every player's PeopleHub investigation flags (<code>challenge_state</code>). Outer-game flags (Exhibit A/B/etc.) are untouched.</p>
+      <button id="btn-reset-progress">Reset Progress</button>
+    </div>
+    <div class="card">
+      <h2>Reset PeopleHub Sessions</h2>
+      <p>Signs every browser out of PeopleHub (in-memory login sessions only). Outer-game sessions are untouched.</p>
+      <button id="btn-reset-sessions">Reset Sessions</button>
+    </div>
+    <div class="card">
+      <h2>Reset Database</h2>
+      <p>Full reseed: drops and rebuilds <code>db/peoplehub.sqlite</code> from scratch (deterministic -- same base data every time). Takes 30-60s. Also clears employee-feedback and challenge-progress rows.</p>
+      <button class="danger" id="btn-reset-db">Reset Database</button>
+    </div>
+    <div class="card">
+      <h2>Synthetic Filesystem</h2>
+      <p>The XXE lab's files under <code>challenge-data/</code> are static and read-only during play -- nothing to reset there. Edit them on disk to change the migration-archive content.</p>
+    </div>
+  </div>
+
+  <p id="msg"></p>
+
+  <div class="card">
+    <h2>Challenge Progress by Session</h2>
+    <div id="table-wrap"><p class="warn">Loading…</p></div>
+  </div>
+
+  <script>
+    const FLAGS = ['stage3_login','stage3_directory','stage3_employee','stage3_report','stage3_request','stage3_document','stage3_xxe','stage3_xss','stage3_emergency','stage3_complete'];
+    function msg(text, kind) { const el = document.getElementById('msg'); el.textContent = text; el.className = kind || ''; }
+
+    async function call(path, method) {
+      const r = await fetch(path, { method: method || 'GET' });
+      let data = null; try { data = await r.json(); } catch (e) {}
+      return { status: r.status, data };
+    }
+
+    async function loadTable() {
+      const r = await call('/api/ctf-admin/state');
+      const wrap = document.getElementById('table-wrap');
+      if (!r.data || !r.data.ok) { wrap.innerHTML = '<p class="warn">Unable to load (is the PeopleHub database seeded?).</p>'; return; }
+      const rows = r.data.sessions || [];
+      if (!rows.length) { wrap.innerHTML = '<p class="warn">No sessions yet.</p>'; return; }
+      wrap.innerHTML = '<table><thead><tr><th>Session</th>' + FLAGS.map(f => '<th>' + f.replace('stage3_','') + '</th>').join('') + '<th>Updated</th></tr></thead><tbody>' +
+        rows.map(row => '<tr><td>' + row.session_key.slice(0, 10) + '…</td>' +
+          FLAGS.map(f => '<td><span class="flag ' + (row[f] ? 'on' : 'off') + '">' + (row[f] ? '✓' : '·') + '</span></td>').join('') +
+          '<td>' + new Date(row.updated_at).toLocaleTimeString() + '</td></tr>').join('') + '</tbody></table>';
+    }
+
+    document.getElementById('btn-reset-progress').addEventListener('click', async () => {
+      const r = await call('/api/ctf-admin/reset-progress', 'POST');
+      msg(r.data && r.data.message || 'Failed.', r.data && r.data.ok ? 'ok' : 'err');
+      loadTable();
+    });
+    document.getElementById('btn-reset-sessions').addEventListener('click', async () => {
+      const r = await call('/api/ctf-admin/reset-phsessions', 'POST');
+      msg(r.data && r.data.message || 'Failed.', r.data && r.data.ok ? 'ok' : 'err');
+    });
+    document.getElementById('btn-reset-db').addEventListener('click', async () => {
+      if (!confirm('This rebuilds the entire PeopleHub database from scratch. Continue?')) return;
+      const btn = document.getElementById('btn-reset-db');
+      btn.disabled = true; btn.textContent = 'Resetting… (30-60s)';
+      const r = await call('/api/ctf-admin/reset-database', 'POST');
+      btn.disabled = false; btn.textContent = 'Reset Database';
+      msg(r.data && r.data.message || 'Failed.', r.data && r.data.ok ? 'ok' : 'err');
+      loadTable();
+    });
+
+    loadTable();
+  </script>
+</body>
+</html>

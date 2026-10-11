@@ -7,8 +7,6 @@ const fs = require('fs');
 
 const TYPE_SIZE = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 7: 1, 9: 4, 10: 8 };
 
-// Returns { modified, original, digitized, make, model, gps: {lat, lon} | null }
-// or null when the file has no EXIF block.
 function readExif(buf) {
   if (buf.length < 4 || buf[0] !== 0xff || buf[1] !== 0xd8) throw new Error('Not a JPEG file');
   let pos = 2;

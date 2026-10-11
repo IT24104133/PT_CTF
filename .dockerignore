@@ -1,0 +1,8 @@
+.git
+docs
+tools
+*.md
+~$*.docx
+data/db/*.sqlite
+data/users.json
+data/challenges.json

@@ -1,0 +1,28 @@
+# Reverse proxy for internet hosting. Caddy gets automatic Let's Encrypt HTTPS for free just by
+# putting a real domain in the site block below — replace it before deploying.
+#
+# IMPORTANT — read before deploying publicly:
+# src/server.js gates /ctf-admin.html and /api/ctf-admin/* purely on the TCP connection looking
+# like loopback (fromLoopback() checks req.socket.remoteAddress === 127.0.0.1). Caddy connects to
+# Node from *this same host*, so once traffic is proxied, EVERY visitor's request looks like a
+# loopback connection to the Node process -- the admin/reset panel would be reachable by anyone on
+# the internet if this block were not here. The `handle @admin` block below stops those two paths
+# at the proxy, before they ever reach Node. To actually use the panel once hosted, SSH-tunnel to
+# it instead:  ssh -L 3000:127.0.0.1:3000 user@your-host   then browse
+# http://localhost:3000/ctf-admin.html on your own machine.
+
+your-domain.example.com {
+	encode gzip zstd
+
+	@admin path /ctf-admin.html /api/ctf-admin/*
+	handle @admin {
+		respond 404
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000 {
+			header_up CF-Connecting-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+}

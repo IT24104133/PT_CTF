@@ -1,0 +1,13 @@
+services:
+  solstice-ctf:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - ctf-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  ctf-data:
