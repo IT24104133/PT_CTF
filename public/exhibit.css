@@ -1,0 +1,224 @@
+/* Exhibit A page. Builds on style.css and stage2.css. */
+
+/* ---------- entrance: the black curtain from the accept scene lifts ---------- */
+.curtain {
+  position: fixed; inset: 0; z-index: 60; pointer-events: none;
+  background: #030a1a;
+  animation: curtain-up 1.1s 0.15s ease forwards;
+}
+@keyframes curtain-up { to { opacity: 0; visibility: hidden; } }
+
+.exhibit .title h1 { font-size: clamp(30px, 5vw, 58px); }
+.exhibit .title h1 span { display: inline-block; }
+.exhibit .title { animation: title-in 0.9s 0.5s both cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes title-in { from { opacity: 0; transform: translateY(24px); filter: blur(8px); } }
+
+.exhibit .layout > * { animation: panel-in 0.8s 0.8s both cubic-bezier(0.2, 0.7, 0.2, 1); }
+.exhibit .layout > .side { animation-delay: 1s; }
+@keyframes panel-in { from { opacity: 0; transform: translateX(46px); } }
+
+.stamp.osint { color: rgba(240, 180, 41, 0.85); border-color: rgba(240, 180, 41, 0.7); transform: rotate(4deg); }
+
+.main-col { display: grid; gap: 24px; min-width: 0; }
+
+/* ---------- case file extras ---------- */
+.story p.res-h {
+  margin-bottom: 8px;
+  font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #8fb6ff;
+}
+.res { margin: 0 clamp(18px, 3vw, 36px) 22px; padding: 0 0 0 22px; color: #d5e0f5; line-height: 1.7; font-size: clamp(16px, 1.4vw, 18px); }
+.res li { margin-bottom: 4px; }
+.res li::marker { color: #2b86ff; }
+
+.evi {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+  margin: 0 clamp(18px, 3vw, 36px) 30px;
+}
+.evi figure { margin: 0; }
+.zoom {
+  position: relative; display: block; width: 100%; padding: 0; cursor: zoom-in;
+  background: #0a1730; border: 1px solid #1d3c72; border-radius: 10px; overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.zoom:hover, .zoom:focus-visible { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26, 123, 255, 0.22), 0 14px 40px rgba(0, 0, 0, 0.4); transform: translateY(-2px); outline: 0; }
+.zoom img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.zoom .mag {
+  position: absolute; right: 10px; bottom: 10px; width: 36px; height: 36px; display: grid; place-items: center;
+  background: rgba(5, 15, 36, 0.78); border: 1px solid #2a4a82; border-radius: 8px;
+}
+.mag svg { width: 20px; height: 20px; fill: none; stroke: #cfe0ff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.evi figcaption { margin-top: 8px; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; color: var(--muted); }
+.evi figcaption b { color: var(--amber); margin-right: 8px; }
+
+.task {
+  margin: 6px clamp(18px, 3vw, 36px) 30px; padding: 18px 20px;
+  background: rgba(240, 180, 41, 0.07); border: 1px solid rgba(240, 180, 41, 0.45); border-radius: 10px;
+}
+.task-tag { display: inline-block; margin-bottom: 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.3em; color: var(--amber); }
+.story .task p { margin: 0; padding: 0; font-size: clamp(16.5px, 1.5vw, 19px); line-height: 1.65; color: #fff; font-weight: 500; }
+.story .task p::first-letter { float: none; margin: 0; font-size: inherit; line-height: inherit; color: inherit; font-weight: inherit; }
+
+
+/* ---------- submit form ---------- */
+.submit form { padding: 24px clamp(18px, 3vw, 30px) 26px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+.submit .field { margin-bottom: 18px; position: relative; }
+.submit .field.ok { border-color: var(--ok); box-shadow: 0 0 0 3px rgba(46, 204, 143, 0.15); }
+.submit .field.bad { border-color: var(--err); box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.14); }
+.res-mark { flex: none; width: 44px; display: grid; place-items: center; }
+.res-mark svg { width: 20px; height: 20px; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; animation: pop 0.35s cubic-bezier(0.2, 1.6, 0.4, 1); }
+.field.ok .res-mark svg { stroke: var(--ok); }
+.field.bad .res-mark svg { stroke: var(--err); }
+@keyframes pop { from { transform: scale(0.2); opacity: 0; } }
+.submit .login-btn:disabled { opacity: 0.6; }
+.submit .hint { margin-top: 18px; }
+
+/* ---------- vault (unlocked) ---------- */
+.vault { border-color: rgba(46, 204, 143, 0.55); box-shadow: 0 0 0 1px rgba(46, 204, 143, 0.2), 0 0 60px rgba(46, 204, 143, 0.15); }
+.vault[hidden] { display: none; }
+.ok-tag { color: var(--ok); border-color: rgba(46, 204, 143, 0.55); }
+.vault-body { display: flex; align-items: center; gap: clamp(18px, 3vw, 34px); padding: 26px clamp(18px, 3vw, 34px) 30px; }
+.lock { flex: none; width: 96px; height: 96px; overflow: visible; }
+.lock .body { fill: #0f6a4a; stroke: var(--ok); stroke-width: 2.5; }
+.lock .shackle path { fill: none; stroke: #b5f1d9; stroke-width: 5; stroke-linecap: round; }
+.lock .keyhole { fill: #eafff6; }
+.lock .keyhole-stem { stroke: #eafff6; stroke-width: 3.5; stroke-linecap: round; }
+.lock .shackle { transform-box: fill-box; transform-origin: 100% 100%; }
+.vault.open .lock { animation: lock-glow 1.2s ease-out; }
+.vault.open .shackle { animation: shackle-open 0.9s 0.25s cubic-bezier(0.3, 1.5, 0.5, 1) forwards; }
+@keyframes shackle-open { 50% { transform: translateY(-12px); } to { transform: translateY(-12px) rotate(-38deg); } }
+@keyframes lock-glow { 0% { filter: drop-shadow(0 0 0 rgba(46, 204, 143, 0)); } 40% { filter: drop-shadow(0 0 26px rgba(46, 204, 143, 0.9)); } 100% { filter: drop-shadow(0 0 8px rgba(46, 204, 143, 0.35)); } }
+
+.vault-txt { min-width: 0; flex: 1; }
+.vault-txt h2 { margin: 0 0 6px; font-size: clamp(24px, 3vw, 32px); color: #fff; }
+.vault-txt p { margin: 0 0 16px; color: var(--muted); font-size: 16px; }
+.flagbox {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 12px 14px; background: #06142b; border: 1px dashed rgba(240, 180, 41, 0.6); border-radius: 10px;
+}
+.flagbox code {
+  flex: 1 1 260px; min-width: 0; overflow-wrap: anywhere;
+  font-family: var(--mono); font-size: clamp(15px, 1.6vw, 18px); letter-spacing: 0.04em; color: var(--amber); min-height: 1.4em;
+}
+.copy {
+  padding: 8px 18px; border-radius: 8px; border: 1px solid #1d3c72; background: var(--field); color: var(--text);
+  font: inherit; font-size: 14px; cursor: pointer;
+}
+.copy:hover { border-color: var(--blue); }
+
+/* ---------- sidebar: progress ---------- */
+.track { list-style: none; margin: 0; padding: 18px 20px 8px; }
+.track li { position: relative; display: flex; align-items: flex-start; gap: 14px; padding-bottom: 20px; }
+.track li::before { content: ""; position: absolute; left: 10px; top: 24px; bottom: -2px; width: 1px; background: #1d3c72; }
+.track li:last-child::before { display: none; }
+.track i {
+  flex: none; position: relative; width: 21px; height: 21px; border-radius: 50%;
+  border: 2px solid #3a5a92; background: #0a1730; transition: all 0.4s;
+}
+.track b { display: block; font-size: 15.5px; font-weight: 600; }
+.track span { font-size: 13.5px; color: var(--muted); }
+.track .done i { background: var(--ok); border-color: var(--ok); box-shadow: 0 0 12px rgba(46, 204, 143, 0.6); }
+.track .done i::after {
+  content: ""; position: absolute; left: 5px; top: 1.5px; width: 5px; height: 10px;
+  border: solid #04231a; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg);
+}
+.track .active i { border-color: var(--blue); background: var(--blue); box-shadow: 0 0 14px rgba(26, 123, 255, 0.8); animation: pulse 1.6s infinite; }
+.track .locked b, .track .locked span { opacity: 0.55; }
+.track .unlocked i { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 14px rgba(240, 180, 41, 0.7); }
+.track .unlocked b { color: var(--amber); opacity: 1; }
+.track .unlocked span { opacity: 1; color: var(--amber); }
+
+.obj li.live i::after {
+  content: ""; display: block; width: 5px; height: 9px; margin: 1px 0 0 5px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+
+/* ---------- lightbox ---------- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 24px;
+  background: rgba(2, 8, 20, 0.94); backdrop-filter: blur(6px); cursor: zoom-out;
+  animation: lb-in 0.25s ease;
+}
+.lightbox[hidden] { display: none; }
+@keyframes lb-in { from { opacity: 0; } }
+.lightbox figure { margin: 0; max-width: 100%; text-align: center; }
+.lightbox img { max-width: min(96vw, 1400px); max-height: 82vh; border-radius: 10px; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7); }
+.lightbox figcaption { margin-top: 12px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; color: var(--muted); }
+.lb-close {
+  position: absolute; top: 16px; right: 20px; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid #2a4a82; background: rgba(10, 24, 50, 0.9); color: #fff; font-size: 28px; line-height: 1; cursor: pointer;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .exhibit .layout > * { animation-name: panel-up; }
+  @keyframes panel-up { from { opacity: 0; transform: translateY(28px); } }
+  .stamp.osint { transform: rotate(-3deg); }
+}
+@media (max-width: 640px) {
+  .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .evi { grid-template-columns: minmax(0, 1fr); }
+  .vault-body { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .curtain { animation-duration: 0.01s; animation-delay: 0s; }
+  .exhibit .title, .exhibit .layout > *, .vault.open .lock, .vault.open .shackle, .res-mark svg { animation: none; }
+  .vault.open .shackle { transform: translateY(-12px) rotate(-38deg); }
+}
+
+/* the last answer spans the full row */
+.submit .field.wide { grid-column: 1 / -1; }
+
+/* ---------- Stage 1 title scene (plays after "This case is now yours.") ---------- */
+/* Longer than the first scene because it has six words. */
+.cinema.s2 { --w0: 0.45s; --wstep: 0.3s; --t-line: 3s; --t-sub: 3.4s; --t-bar: 3.5s; --d-bar: 1.6s; }
+
+/* Only visible when the page was opened with ?intro=1 */
+#intro { display: none; z-index: 65; }
+html.intro #intro { display: grid; opacity: 1; transition: none; }
+html.intro #intro.leave { opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
+html.intro .curtain { display: none; }
+
+/* Keep the page hidden until the scene is over, then let it slide in. */
+html.intro .title, html.intro .layout > * { opacity: 0; animation: none; }
+.after-intro .title { animation-delay: 0.05s; }
+.after-intro .layout > * { animation-delay: 0.25s; }
+.after-intro .layout > .side { animation-delay: 0.4s; }
+
+/* radar rings for "where in the world" */
+.cin-ping { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.cin-ping i {
+  position: absolute; left: 0; top: 0; width: min(74vmin, 680px); height: min(74vmin, 680px);
+  border: 1px solid rgba(43, 134, 255, 0.55); border-radius: 50%;
+  box-shadow: 0 0 24px rgba(26, 123, 255, 0.22);
+  transform: translate(-50%, -50%) scale(0.1); opacity: 0;
+  will-change: transform, opacity;
+  animation: cin-ping 3.4s ease-out infinite paused;
+}
+.cin-ping i:nth-child(2) { animation-delay: 1.1s; }
+.cin-ping i:nth-child(3) { animation-delay: 2.2s; }
+@keyframes cin-ping {
+  0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+  18% { opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+}
+.cinema.play .cin-ping i { animation-play-state: running; }
+
+.cin-skip {
+  position: absolute; right: clamp(16px, 3vw, 32px); bottom: clamp(16px, 3vw, 32px);
+  padding: 8px 18px; border-radius: 8px; border: 1px solid #1d3c72; background: rgba(10, 24, 50, 0.7);
+  color: var(--muted); font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.2em; cursor: pointer;
+  opacity: 0; animation: cin-fade 0.5s 1.2s forwards paused;
+}
+.cin-skip:hover { color: #fff; border-color: var(--blue); }
+.cinema.play .cin-skip { animation-play-state: running; }
+
+/* --- polish for the Stage 1 title scene --- */
+html.intro, html.intro body { overflow: hidden; }
+.after-intro .curtain { display: none; }                 /* no second dark flash after the scene */
+.cinema.s2 .cin-title { font-size: clamp(30px, 6.2vw, 90px); }
+.cin-title .br { flex-basis: 100%; height: 0; }          /* forces "STAGE 1:" onto its own line */
+
+/* "Go to Stage 2" button under the flag */
+.vault .next-stage { max-width: 340px; margin-top: 18px; text-decoration: none; }

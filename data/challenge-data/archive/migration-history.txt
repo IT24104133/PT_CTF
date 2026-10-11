@@ -1,0 +1,20 @@
+MIGRATION HISTORY -- CUTOVER WEEK ARCHIVE
+Solstice Dynamics IT Infrastructure
+
+Cutover week summary:
+The legacy HRIS was decommissioned in favor of PeopleHub over a five-day window. RBAC and the
+normal role-provisioning workflow were not fully live until day 4, so a small number of accounts
+needed manual, temporary elevated access to keep the directory sync and payroll cutover on
+schedule.
+
+Manual provisioning record:
+  Account:      HR Portal Sysadmin (temporary)
+  Provisioned:  Cutover day 1, by IT Infrastructure
+  Access type:  Emergency Access -- Temporary System Access
+  Emergency access code issued: BLACKOUT-7
+  Intended duration: cutover week only
+
+This code was meant to be rotated the moment RBAC went live on day 4. Security should confirm
+it no longer grants access anywhere in the current system before this archive is purged.
+
+-- Migration Team, Solstice Dynamics

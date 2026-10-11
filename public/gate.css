@@ -1,0 +1,84 @@
+/* Stage 2 lock screen. Builds on style.css and stage2.css. */
+
+.gate-wrap {
+  position: relative; z-index: 2;
+  min-height: calc(100vh - 62px);
+  display: grid; place-items: center;
+  padding: 32px 16px 64px;
+}
+
+.gate-card {
+  width: min(580px, 100%);
+  padding: 34px clamp(20px, 4vw, 44px) 28px;
+  text-align: center;
+  animation: gate-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes gate-in { from { opacity: 0; transform: translateY(28px) scale(0.98); } }
+
+/* ---------- the lock ---------- */
+.gate-lock {
+  width: 124px; height: 124px; margin: 0 auto 18px; overflow: visible;
+  filter: drop-shadow(0 0 24px rgba(255, 107, 107, 0.5));
+  animation: lock-breathe 2.6s ease-in-out infinite;
+}
+@keyframes lock-breathe { 50% { filter: drop-shadow(0 0 40px rgba(255, 107, 107, 0.85)); } }
+.gate-lock .body { fill: #3a1620; stroke: var(--err); stroke-width: 2.5; transition: fill 0.5s, stroke 0.5s; }
+.gate-lock .shackle path { fill: none; stroke: #ffb8b8; stroke-width: 5; stroke-linecap: round; transition: stroke 0.5s; }
+.gate-lock .keyhole { fill: #ffe9e9; }
+.gate-lock .keyhole-stem { stroke: #ffe9e9; stroke-width: 3.5; stroke-linecap: round; }
+.gate-lock .shackle { transform-box: fill-box; transform-origin: 100% 100%; }
+
+/* opening */
+.gate.open .gate-lock { animation: lock-open-glow 1.4s ease-out forwards; }
+.gate.open .gate-lock .body { fill: #0f6a4a; stroke: var(--ok); }
+.gate.open .gate-lock .shackle path { stroke: #b5f1d9; }
+.gate.open .gate-lock .shackle { animation: gate-shackle 1s 0.25s cubic-bezier(0.3, 1.5, 0.5, 1) forwards; }
+@keyframes gate-shackle { 50% { transform: translateY(-14px); } to { transform: translateY(-14px) rotate(-38deg); } }
+@keyframes lock-open-glow {
+  0% { filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.6)); }
+  45% { filter: drop-shadow(0 0 46px rgba(46, 204, 143, 1)); }
+  100% { filter: drop-shadow(0 0 14px rgba(46, 204, 143, 0.5)); }
+}
+
+/* a wrong flag rattles the lock */
+.gate.deny .gate-lock { animation: lock-rattle 0.5s; }
+@keyframes lock-rattle { 20%, 60% { transform: translateX(-8px) rotate(-4deg); } 40%, 80% { transform: translateX(8px) rotate(4deg); } }
+
+/* ---------- text ---------- */
+.gate-eyebrow { margin: 0 0 10px; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.4em; color: var(--amber); transition: color 0.4s; }
+.gate.open .gate-eyebrow { color: var(--ok); }
+.gate-card h1 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: 0.01em; }
+.gate.open h1 { color: var(--ok); text-shadow: 0 0 30px rgba(46, 204, 143, 0.5); }
+.gate-lead { margin: 0 auto 26px; max-width: 30em; color: var(--muted); font-size: 16.5px; line-height: 1.6; }
+
+.gate-card form { text-align: left; }
+.flag-label { display: block; margin-bottom: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.24em; color: #8fb6ff; }
+
+.gate-card textarea {
+  display: block; width: 100%; min-height: 104px; resize: vertical;
+  padding: 14px 16px;
+  background: var(--field); color: var(--text);
+  border: 1px solid #1d3c72; border-radius: 9px; outline: 0;
+  font-family: var(--mono); font-size: 16px; line-height: 1.5; letter-spacing: 0.03em;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.gate-card textarea::placeholder { color: #55709c; }
+.gate-card textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26, 123, 255, 0.22); }
+.gate.deny textarea { border-color: var(--err); box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.16); }
+.gate.open textarea { border-color: var(--ok); box-shadow: 0 0 0 3px rgba(46, 204, 143, 0.16); }
+
+.gate-card .login-btn { margin-top: 16px; }
+.gate-card .login-btn .label { margin: 0; }
+.gate-card .hint { margin-top: 16px; }
+
+.gate-back {
+  display: inline-block; margin-top: 20px; color: var(--muted); font-size: 14px; text-decoration: none;
+}
+.gate-back:hover { color: #fff; }
+
+.gate.open .gate-back, .gate.open form { opacity: 0.55; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-card, .gate-lock, .gate.deny .gate-lock { animation: none; }
+  .gate.open .gate-lock .shackle { animation: none; transform: translateY(-14px) rotate(-38deg); }
+}

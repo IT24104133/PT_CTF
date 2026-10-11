@@ -1,0 +1,15 @@
+DIRECTORY SYNC LOG -- legacy HRIS -> PeopleHub
+Last full sync: 2025-11-02 03:14 UTC
+Records reconciled: 1,347
+Records flagged for manual review: 3 (custom field mismatch)
+
+Sync agent notes:
+Field mapping for job_grade and work_mode required a manual pass this run -- the legacy system
+used different enum values than PeopleHub expects. Mapping table is unchanged from last time.
+
+Note for whoever picks this up next: the import validation ruleset referenced throughout these
+logs was relocated during the config cleanup mentioned in the migration notes. It's no longer
+anywhere under hr/ -- check the import config directory instead:
+config/import-settings.txt
+
+-- automated sync agent, run id sync-2025-11-02-0314

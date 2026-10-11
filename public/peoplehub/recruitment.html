@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruitment — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Recruitment</div>
+        <div class="ph-tabs">
+          <button class="ph-tab active" data-tab="jobs">Job Openings</button>
+          <button class="ph-tab" data-tab="candidates">Candidates</button>
+          <button class="ph-tab" data-tab="applications">Applications</button>
+        </div>
+        <div class="ph-tab-panel active" id="tab-jobs"><div id="ph-jobs-table"></div></div>
+        <div class="ph-tab-panel" id="tab-candidates">
+          <div class="ph-toolbar"><input type="search" id="ph-cand-search" placeholder="Search candidates…"></div>
+          <div id="ph-candidates-table"></div>
+        </div>
+        <div class="ph-tab-panel" id="tab-applications"><div id="ph-applications-table"></div></div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="recruitment.js"></script>
+</body>
+</html>

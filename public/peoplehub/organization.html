@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organization — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .ph-org-node { margin-left: 20px; border-left: 1px dashed var(--ph-border); padding-left: 14px; }
+  .ph-org-node.root { margin-left: 0; border-left: none; padding-left: 0; }
+  .ph-org-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+  .ph-org-toggle { width: 18px; height: 18px; border: 1px solid var(--ph-border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 11px; line-height: 1; display: grid; place-items: center; flex: 0 0 auto; }
+  .ph-org-card { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border: 1px solid var(--ph-border); border-radius: 6px; background: #fff; }
+  .ph-org-card a { color: var(--ph-text); font-weight: 600; }
+  .ph-org-card small { display: block; color: var(--ph-muted); font-weight: 400; }
+  .ph-org-children.collapsed { display: none; }
+</style>
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Organization</div>
+        <div class="ph-toolbar">
+          <input type="search" id="ph-org-search" placeholder="Search the org chart…">
+          <span class="spacer"></span>
+          <button type="button" class="ph-btn ghost sm" id="ph-org-expand">Expand All</button>
+          <button type="button" class="ph-btn ghost sm" id="ph-org-collapse">Collapse All</button>
+        </div>
+        <div class="ph-card" id="ph-org-tree"><div class="ph-skeleton" style="height:200px;"></div></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="organization.js"></script>
+</body>
+</html>

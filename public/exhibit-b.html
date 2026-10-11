@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Exhibit B</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="exhibit.css">
+  <link rel="stylesheet" href="splash.css">
+  <link rel="stylesheet" href="exhibit-b.css">
+  <script>
+    document.documentElement.className += ' js';
+    // Arriving from the unlocked gate (?intro=1) plays the Stage 2 title scene before the page shows.
+    if (/[?&]intro=1(&|$)/.test(location.search)) document.documentElement.className += ' intro splash';
+  </script>
+</head>
+<body class="briefing exhibit exhibit-b">
+
+  <!-- Title scene: welcome to Stage 2, then the stage title -->
+  <div id="splash" aria-hidden="true">
+    <div class="sp-grid"></div>
+    <div class="sp-ping"><i></i><i></i><i></i></div>
+
+    <section class="act a1" style="--tl:1.5s; --ts:2s">
+      <p class="sp-eyebrow">ACCESS GRANTED</p>
+      <h2 class="sp-title"><span style="--i:0">WELCOME</span> <span style="--i:1">TO</span> <span class="y" style="--i:2">STAGE 2</span></h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">THE CASE GOES DEEPER</p>
+    </section>
+
+    <section class="act a2" style="--tl:2.6s; --ts:3s">
+      <p class="sp-eyebrow">EXHIBIT B</p>
+      <h2 class="sp-title">
+        <span style="--i:0">THE</span>
+        <span style="--i:1">DEVIL'S</span>
+        <span style="--i:2">IN</span>
+        <span style="--i:3">THE</span>
+        <span class="br" aria-hidden="true"></span>
+        <span class="y" style="--i:4">EXIF</span>
+      </h2>
+      <div class="sp-line"></div>
+      <p class="sp-sub">( METADATA FORENSICS )</p>
+    </section>
+
+    <div class="sp-dots"><i></i><i></i></div>
+    <button type="button" class="sp-skip" id="sp-skip">Skip</button>
+  </div>
+
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg5" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg5)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> EXHIBIT B &nbsp;/&nbsp; STAGE 2</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="title">
+      <p class="eyebrow">EXHIBIT B</p>
+      <h1>STAGE 2: <span>THE DEVIL'S IN THE EXIF</span></h1>
+      <p class="subtitle">( Metadata Forensics )</p>
+      <div class="stamp osint" aria-hidden="true">EXIF</div>
+    </section>
+
+    <div class="layout">
+
+      <div class="main-col">
+        <article class="story panel">
+          <div class="panel-h"><span>EXHIBIT B · CASE FILE</span><span class="mono">SOLSTICE DYNAMICS · SECURITY</span></div>
+
+          <p class="rv">The café lead pays off fast. You get a name, a street — and something even better. In a deleted cloud album that Thahani's contact managed to recover, there's a second photo from the same trip. This one shows the outside of an office building. It looks like a quick reference photo, not a memory someone wanted to keep.</p>
+
+          <!-- the evidence file -->
+          <figure class="b-evi rv" id="b-evi">
+            <button type="button" class="zoom" id="b-zoom" data-src="/evidence/recovered.jpg" data-cap="Exhibit B-1 · Recovered photo" aria-label="Enlarge the recovered photo">
+              <img id="b-img" src="/evidence/recovered.jpg" alt="A restaurant table with several dishes, drinks and two diners" loading="lazy">
+              <span class="mag" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg>
+              </span>
+            </button>
+            <figcaption>
+              <span><b>B-1</b> Recovered from the deleted album</span>
+              <a class="dl" id="b-dl" href="/evidence/recovered.jpg?download=1" download>
+                <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+                Download original file
+              </a>
+            </figcaption>
+            <p class="b-note" id="b-note">Work from the original file. A screenshot or a re-saved copy loses its metadata.</p>
+          </figure>
+
+          <blockquote class="rv quote">
+            <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+            “Whoever took this didn't remove the metadata,” Thahani says, almost surprised. “That's a rookie mistake — or he didn't think anyone would ever see it. Check the GPS data. Check the timestamp. I want to know exactly where he stood, and exactly when.”
+          </blockquote>
+
+          <p class="rv">It's the kind of small mistake that can end a criminal's luck. One photo with its metadata left in — and suddenly a guess turns into a real place and a real date.</p>
+
+          <div class="task rv">
+            <span class="task-tag">TASK</span>
+            <p>→ Find the GPS coordinates and the last-modified timestamp hidden in the image's metadata.</p>
+          </div>
+        </article>
+
+        <!-- ===== answer form ===== -->
+        <section class="panel submit rv" id="submit-panel">
+          <div class="panel-h"><span>SUBMIT FINDINGS</span><span class="tag">SERVER VERIFIED</span></div>
+
+          <p class="notready-msg" id="notready">This stage is not ready yet. Check back soon.</p>
+
+          <form id="answers" autocomplete="off" novalidate>
+            <div class="qlist">
+              <div class="q">
+                <label class="qlabel" for="q-location"><b>Q1</b> What GPS location do the coordinates point to?</label>
+                <label class="field" data-f="location">
+                  <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+                  <input id="q-location" name="location" type="text" placeholder="Place name" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+
+              <div class="q">
+                <label class="qlabel" for="q-modified"><b>Q2</b> What is the file's last-modified date?</label>
+                <label class="field" data-f="modified">
+                  <span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span>
+                  <input id="q-modified" name="modified" type="text" placeholder="Date (DD/MM/YYYY)" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+
+              <div class="q">
+                <label class="qlabel" for="q-model"><b>Q3</b> What phone model was used to take this photo?</label>
+                <label class="field" data-f="model">
+                  <span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+                  <input id="q-model" name="model" type="text" placeholder="Phone model" maxlength="300" autocapitalize="off" spellcheck="false">
+                  <span class="res-mark" aria-hidden="true"></span>
+                </label>
+              </div>
+            </div>
+
+            <button id="verify" class="login-btn" type="submit">
+              <span class="label">Verify findings</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>
+            </button>
+            <p id="status" class="hint" role="status" aria-live="polite">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <span id="status-text">All three answers must be right to finish Stage 2.</span>
+            </p>
+          </form>
+        </section>
+
+        <!-- ===== finished ===== -->
+        <section class="panel vault" id="vault" hidden>
+          <div class="panel-h"><span>STAGE 2 · COMPLETE</span><span class="tag ok-tag">ALL FINDINGS VERIFIED</span></div>
+          <div class="vault-body">
+            <svg class="lock" viewBox="0 0 64 64" aria-hidden="true">
+              <g class="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8"/></g>
+              <rect x="12" y="28" width="40" height="28" rx="6" class="body"/>
+              <circle cx="32" cy="41" r="4" class="keyhole"/>
+              <path d="M32 44v6" class="keyhole-stem"/>
+            </svg>
+            <div class="vault-txt">
+              <h2>You found where he stood.</h2>
+              <p id="vault-text">And when, and with what. The next stage will open here.</p>
+              <div class="flagbox" id="flagbox" hidden>
+                <code id="flag" aria-live="polite"></code>
+                <button type="button" id="copy" class="copy">Copy</button>
+              </div>
+              <a class="login-btn next-stage" href="/gate-3.html">
+                <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                <span class="label">Go to Stage 3</span>
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== sidebar ===== -->
+      <aside class="side">
+        <section class="panel">
+          <div class="panel-h"><span>CASE PROGRESS</span></div>
+          <ol class="track">
+            <li class="done"><i></i><div><b>Prologue</b><span>The Call</span></div></li>
+            <li class="done"><i></i><div><b>Stage 1</b><span>Where in the world</span></div></li>
+            <li class="active" id="t-s2"><i></i><div><b>Stage 2</b><span>The devil's in the EXIF</span></div></li>
+            <li class="locked"><i></i><div><b>Stage 3</b><span>Cracked login</span></div></li>
+            <li class="locked"><i></i><div><b>Stage 4</b><span>Trusted input</span></div></li>
+            <li class="locked"><i></i><div><b>Stage 5</b><span>Reading the logs</span></div></li>
+            <li class="locked"><i></i><div><b>Stage 6</b><span>Cached evidence</span></div></li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>WHAT TO FIND</span></div>
+          <ul class="obj" id="obj">
+            <li data-o="location"><i></i> GPS location</li>
+            <li data-o="modified"><i></i> Last-modified date</li>
+            <li data-o="model"><i></i> Phone model</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>EVIDENCE</span></div>
+          <div class="card-body col">
+            <p>One photo. Download the original file and read what is hidden inside it.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button type="button" class="lb-close" aria-label="Close">×</button>
+    <figure>
+      <img alt="">
+      <figcaption id="lb-cap"></figcaption>
+    </figure>
+  </div>
+
+  <script src="exhibit-b.js"></script>
+</body>
+</html>

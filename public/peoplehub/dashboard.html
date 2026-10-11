@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <h2 id="ph-welcome" style="margin:0 0 18px;">Welcome back.</h2>
+
+        <div class="ph-kpi-row" id="ph-kpis">
+          <div class="ph-kpi"><div class="ph-skeleton" style="height:34px;width:70px;"></div></div>
+          <div class="ph-kpi"><div class="ph-skeleton" style="height:34px;width:70px;"></div></div>
+          <div class="ph-kpi"><div class="ph-skeleton" style="height:34px;width:70px;"></div></div>
+          <div class="ph-kpi"><div class="ph-skeleton" style="height:34px;width:70px;"></div></div>
+        </div>
+
+        <div class="ph-card">
+          <h3>Quick Actions</h3>
+          <div class="ph-quick-actions">
+            <a class="ph-quick-action" href="employees.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Find an Employee</a>
+            <a class="ph-quick-action" href="hr-requests.html?new=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>Submit HR Request</a>
+            <a class="ph-quick-action" href="payroll.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>View Payslip</a>
+            <a class="ph-quick-action" href="leave.html?new=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v16H4z"/></svg>Request Leave</a>
+            <a class="ph-quick-action" href="documents.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>View Documents</a>
+            <a class="ph-quick-action" href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>Create Report</a>
+          </div>
+        </div>
+
+        <div class="ph-grid">
+          <div>
+            <div class="ph-card">
+              <h3>Department Distribution</h3>
+              <div id="ph-headcount-chart"></div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-head"><h3>Recent HR Activity</h3></div>
+              <div id="ph-activity"></div>
+            </div>
+            <div class="ph-card" id="ph-pending-card" hidden>
+              <div class="ph-card-head"><h3>Pending Requests</h3><a href="hr-requests.html">View all</a></div>
+              <div id="ph-pending"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ph-card">
+              <div class="ph-card-head"><h3>Upcoming Leave</h3><a href="leave.html">View all</a></div>
+              <div id="ph-upcoming-leave"></div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-head"><h3>Company Announcements</h3><a href="announcements.html">View all</a></div>
+              <div id="ph-announcements"></div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-card-head"><h3>Recent Documents</h3><a href="documents.html">View all</a></div>
+              <div id="ph-recent-docs"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

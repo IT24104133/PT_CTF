@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employee Data Import — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="administration.html">Administration</a> / Employee Data Import</div>
+
+        <div class="ph-card">
+          <h2 style="margin-top:0;">Employee Data Import</h2>
+          <p style="color:var(--ph-muted);">Upload employee records in XML format for validation and import.</p>
+
+          <div class="ph-field">
+            <label>XML File</label>
+            <textarea id="ph-import-xml" rows="10" style="font-family:monospace;font-size:12.5px;" placeholder='&lt;?xml version="1.0"?&gt;&#10;&lt;employees&gt;&lt;employee&gt;&lt;name&gt;Jordan Ellis&lt;/name&gt;&lt;role&gt;QA Engineer&lt;/role&gt;&lt;note&gt;Starts Monday&lt;/note&gt;&lt;/employee&gt;&lt;/employees&gt;'></textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" class="ph-btn ghost" id="ph-import-choose">Choose XML File</button>
+            <input type="file" id="ph-import-file" accept=".xml" hidden>
+            <button type="button" class="ph-btn ghost" id="ph-import-validate">Validate</button>
+            <button type="button" class="ph-btn" id="ph-import-go" disabled>Import</button>
+          </div>
+
+          <div id="ph-import-msg" style="margin-top:14px;"></div>
+          <div id="ph-import-preview" hidden style="margin-top:14px;">
+            <h3>Preview</h3>
+            <div class="ph-list-row"><span>Name</span><span id="pv-name"></span></div>
+            <div class="ph-list-row"><span>Role</span><span id="pv-role"></span></div>
+            <div class="ph-list-row"><span>Note</span><span id="pv-note"></span></div>
+          </div>
+        </div>
+
+        <div class="ph-card">
+          <h3>Last Import Summary</h3>
+          <div class="ph-kpi-row" id="ph-import-summary">
+            <div class="ph-kpi"><div class="n">—</div><div class="l">Records Processed</div></div>
+            <div class="ph-kpi"><div class="n">—</div><div class="l">Successful</div></div>
+            <div class="ph-kpi"><div class="n">—</div><div class="l">Rejected</div></div>
+            <div class="ph-kpi"><div class="n">—</div><div class="l">Warnings</div></div>
+          </div>
+        </div>
+
+        <div class="ph-card">
+          <h3>Import History</h3>
+          <div id="ph-import-history"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="import.js"></script>
+</body>
+</html>

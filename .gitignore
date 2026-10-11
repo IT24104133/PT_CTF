@@ -1,0 +1,22 @@
+# Generated application data
+/data/db/*.sqlite*
+/data/users.json
+/data/challenges.json
+/data/evidence/recovered.jpg
+/data/evidence/access.log
+/data/evidence/error.log
+/data/evidence/thumbcache.txt
+/data/evidence/prefetch.txt
+
+# Local tools, logs, environment, and editor files
+/tools/
+/node_modules/
+/tmp/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+~$*.docx
+~$*.doc

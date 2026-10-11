@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HR Requests — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / HR Requests</div>
+        <div class="ph-toolbar">
+          <input type="search" id="ph-req-search" placeholder="Search request ID, subject, employee…">
+          <select id="ph-f-category"><option value="">All Categories</option>
+            <option>Payroll</option><option>Leave</option><option>Benefits</option><option>Employment</option>
+            <option>Access</option><option>Documents</option><option>Onboarding</option><option>Offboarding</option>
+            <option>Policy</option><option>General</option>
+          </select>
+          <select id="ph-f-status"><option value="">All Statuses</option>
+            <option>Open</option><option>In Progress</option><option>Waiting for Employee</option><option>Resolved</option><option>Closed</option>
+          </select>
+          <span class="spacer"></span>
+          <button type="button" class="ph-btn" id="ph-new-req">Submit HR Request</button>
+        </div>
+        <div id="ph-req-table"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="ph-modal-backdrop" id="ph-req-modal" hidden>
+    <div class="ph-modal">
+      <div class="ph-modal-head"><h2>Submit HR Request</h2><button type="button" class="ph-modal-close" id="ph-req-close">&times;</button></div>
+      <form id="ph-req-form">
+        <div class="ph-field"><label>Category</label>
+          <select id="ph-req-category"><option>Payroll</option><option>Leave</option><option>Benefits</option><option>Employment</option><option>Access</option><option>Documents</option><option>Onboarding</option><option>Offboarding</option><option>Policy</option><option>General</option></select>
+        </div>
+        <div class="ph-field"><label>Subject</label><input type="text" id="ph-req-subject" required maxlength="200"></div>
+        <div class="ph-field"><label>Description</label><textarea id="ph-req-desc" rows="4"></textarea></div>
+        <button type="submit" class="ph-btn">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="hr-requests.js"></script>
+</body>
+</html>

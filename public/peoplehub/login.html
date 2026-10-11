@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div class="ph-login-wrap">
+    <div class="ph-login-card">
+      <div class="ph-login-brand">
+        <span class="ph-logo">SD</span>
+        <div><b>Solstice Dynamics</b><small>Solstice PeopleHub &middot; Employee &amp; Workforce Management</small></div>
+      </div>
+
+      <form id="ph-login-form" autocomplete="off">
+        <div class="ph-field">
+          <label for="ph-username">Work Email / Username</label>
+          <input id="ph-username" type="text" autocomplete="username" spellcheck="false" required>
+        </div>
+        <div class="ph-field">
+          <label for="ph-password">Password</label>
+          <input id="ph-password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="ph-login-options">
+          <label><input type="checkbox" id="ph-remember"> Remember me</label>
+          <a href="#" id="ph-forgot">Forgot password?</a>
+        </div>
+        <button type="submit" class="ph-btn" id="ph-login-btn" style="width:100%; justify-content:center;">Sign In</button>
+        <div class="ph-login-divider">or</div>
+        <button type="button" class="ph-btn ghost" style="width:100%; justify-content:center;" id="ph-sso-btn">Continue with SSO</button>
+        <div id="ph-login-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emergency Access — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Security / Emergency Access</div>
+
+        <div class="ph-card">
+          <h2 style="margin-top:0;">Request Emergency Access</h2>
+          <p style="color:var(--ph-muted);">For access needed outside the normal request process. Standard requests go through Manager, Security, and HR approval in sequence.</p>
+          <form id="ph-ea-form">
+            <div class="ph-form-row">
+              <div class="ph-field"><label>Access Type</label>
+                <select id="ph-ea-type"><option>Temporary System Access</option><option>Elevated Document Access</option><option>Off-Hours Building Access</option><option>Emergency Payroll Override</option></select>
+              </div>
+              <div class="ph-field"><label>Duration</label>
+                <select id="ph-ea-duration"><option value="4">4 hours</option><option value="8" selected>8 hours</option><option value="24">24 hours</option><option value="48">48 hours</option></select>
+              </div>
+            </div>
+            <div class="ph-field"><label>Reason</label><textarea id="ph-ea-reason" rows="3" required></textarea></div>
+            <div class="ph-field"><label>Emergency Access Code (optional)</label><input type="text" id="ph-ea-code" placeholder="If you have been issued a break-glass code"></div>
+            <button type="submit" class="ph-btn">Submit Request</button>
+          </form>
+          <div id="ph-ea-msg" style="margin-top:14px;"></div>
+        </div>
+
+        <div class="ph-card">
+          <h3>Requests</h3>
+          <div id="ph-ea-table"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="emergency-access.js"></script>
+</body>
+</html>

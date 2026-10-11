@@ -1,0 +1,332 @@
+:root {
+  --bg: #050f24;
+  --bg-2: #071730;
+  --panel: rgba(13, 31, 63, 0.72);
+  --field: #0d1f3f;
+  --line: #17325f;
+  --text: #f3f7ff;
+  --muted: #9fb2d2;
+  --blue: #1a7bff;
+  --blue-2: #0a5fe0;
+  --ok: #2ecc8f;
+  --err: #ff6b6b;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+svg { display: block; }
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* ---------- main area ---------- */
+.main {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 560px;
+}
+
+.hero {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  left: 34%;
+  z-index: 0;
+}
+.hero .scene, .hero .hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero .hero-photo {
+  background: url("hero.jpg") center / cover no-repeat;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--bg) 0%, rgba(5, 15, 36, 0.85) 12%, rgba(5, 15, 36, 0) 45%),
+    linear-gradient(0deg, rgba(5, 15, 36, 0.55) 0%, rgba(5, 15, 36, 0) 25%);
+}
+
+.contours {
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 240px;
+  height: 240px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.left {
+  position: relative;
+  z-index: 2;
+  width: min(640px, 100%);
+  padding: clamp(28px, 4vw, 56px) clamp(20px, 5.6vw, 88px);
+}
+
+/* ---------- brand ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: clamp(36px, 7vh, 72px);
+}
+.shield { width: 54px; height: 61px; flex: none; filter: drop-shadow(0 0 14px rgba(26, 123, 255, 0.55)); }
+.wordmark {
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.wordmark span { color: #1f7bff; font-weight: 600; }
+.tagline {
+  margin-top: 10px;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  color: var(--muted);
+}
+.tagline i { font-style: normal; margin: 0 6px; }
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 2.9vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+h1 span { color: #1f7bff; }
+.lead {
+  margin: 0 0 32px;
+  max-width: 26em;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* ---------- form card ---------- */
+.card {
+  padding: 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.field {
+  display: flex;
+  align-items: stretch;
+  height: 54px;
+  margin-bottom: 20px;
+  background: var(--field);
+  border: 1px solid #1d3c72;
+  border-radius: 9px;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26, 123, 255, 0.22);
+}
+.field .ico {
+  flex: none;
+  width: 54px;
+  display: grid;
+  place-items: center;
+  border-right: 1px solid #1d3c72;
+  background: rgba(255, 255, 255, 0.02);
+}
+.field .ico svg, .eye svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: #c9d6ee; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+.field input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 14px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+}
+.field input::placeholder { color: #6f86ad; }
+.field input.masked { -webkit-text-security: disc; text-security: disc; }
+
+.eye {
+  flex: none;
+  width: 50px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.eye svg { stroke: #7f95bb; }
+.eye:hover svg { stroke: #d6e3fb; }
+
+.login-btn {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+  background: linear-gradient(180deg, #1f86ff 0%, #0a6af0 100%);
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(26, 123, 255, 0.35);
+  transition: transform 0.1s, filter 0.15s, opacity 0.15s;
+}
+.login-btn:hover { filter: brightness(1.1); }
+.login-btn:active { transform: translateY(1px); }
+.login-btn:disabled { opacity: 0.6; cursor: not-allowed; filter: none; }
+.login-btn svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 14.5px;
+  min-height: 22px;
+}
+.hint svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.hint.error { color: var(--err); }
+.hint.success { color: var(--ok); }
+
+.card.shake { animation: shake 0.4s; }
+@keyframes shake {
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* ---------- steps bar ---------- */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 34px clamp(20px, 7vw, 108px) 52px;
+  background: var(--bg-2);
+  border-top: 1px solid #10305c;
+}
+.step { display: flex; align-items: center; gap: 18px; }
+.badge {
+  width: 66px; height: 66px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: #0f2549;
+  border: 1px solid #1d3c72;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+.badge svg { width: 28px; height: 28px; fill: none; stroke: #b7c7e6; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.badge.on {
+  background: #0a4fc4;
+  border-color: #2f8bff;
+  box-shadow: 0 0 26px rgba(26, 123, 255, 0.55);
+}
+.badge.on svg { stroke: #fff; }
+.badge.done { background: #0f6a4a; border-color: var(--ok); box-shadow: 0 0 22px rgba(46, 204, 143, 0.4); }
+.badge.done svg { stroke: #fff; }
+
+.txt { display: flex; flex-direction: column; gap: 5px; }
+.txt strong { font-size: 19px; font-weight: 600; }
+.txt em { font-style: normal; font-size: 15px; color: var(--muted); }
+.txt em b { font-weight: 400; color: #2b86ff; }
+
+.pill {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: #12294f;
+  color: #dfe8f8;
+  font-size: 13.5px;
+  transition: all 0.3s;
+}
+.pill.available { background: #0a6af0; color: #fff; }
+.pill.done { background: #0f6a4a; color: #fff; }
+
+.arrow {
+  width: 40px; height: 12px;
+  flex: none;
+  fill: none; stroke: #2a4676; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.arrow.live { stroke: #2b86ff; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .steps { flex-wrap: wrap; gap: 24px 16px; }
+  .arrow { display: none; }
+  .step { flex: 1 1 260px; }
+}
+
+@media (max-width: 760px) {
+  .main { align-items: flex-start; }
+  .hero { left: 0; opacity: 0.35; }
+  .hero::after {
+    background: linear-gradient(180deg, rgba(5, 15, 36, 0.4), var(--bg) 85%);
+  }
+  .left { width: 100%; padding: 28px 20px 40px; }
+  .lead { font-size: 16px; }
+  .steps { padding: 28px 20px 40px; }
+}
+
+
+/* First entry gate credential puzzle */
+.entry-clue { margin: 0 0 24px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); backdrop-filter: blur(6px); }
+.entry-clue-label { margin: 0 0 10px; color: #6db1ff; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.entry-clue h2 { margin: 0 0 10px; font-size: 21px; font-weight: 600; }
+.entry-clue p:not(.entry-clue-label) { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.entry-clue-values { margin: 18px 0; }
+.entry-clue-values div + div { margin-top: 14px; }
+.entry-clue-values dt { margin-bottom: 7px; color: var(--muted); font-size: 12px; }
+.entry-clue-values dd { margin: 0; padding: 11px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 7px; }
+.entry-clue-values code { font-family: Consolas, monospace; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; user-select: all; }
+.entry-clue-hint { border-top: 1px solid var(--line); padding-top: 14px; }
+.entry-clue-hint summary { color: #6db1ff; cursor: pointer; font-size: 14px; }
+.entry-clue-hint summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.entry-clue-hint[open] summary { margin-bottom: 10px; }
+
+/* Separate entry gate page */
+.entry-page { width: min(620px, 100%); margin: 0 auto; padding: clamp(32px, 8vh, 88px) 20px; }
+.entry-back { display: inline-block; margin-bottom: 24px; color: var(--muted); text-decoration: none; }
+.entry-back:hover { color: var(--text); }
+.entry-page .entry-clue { padding: clamp(22px, 5vw, 36px); }
+.entry-page h1 { font-size: clamp(26px, 5vw, 34px); margin-bottom: 16px; }
+.entry-puzzle-link { display: inline-block; margin: 0 0 24px; color: #6db1ff; font-size: 15px; text-underline-offset: 4px; }
+.entry-hint-button { padding: 10px 20px; border: 1px solid #2f8bff; border-radius: 8px; background: var(--field); color: var(--text); font: inherit; cursor: pointer; }
+.entry-hint-button:hover { background: #17325f; }
+.entry-hint-button:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.entry-hint-content { margin-top: 16px; padding: 16px; border-left: 3px solid var(--blue); background: var(--bg); border-radius: 4px; }
+.entry-hint-content[hidden] { display: none; }
+.entry-hint-content strong { color: var(--text); }
+.entry-login-link { margin-top: 24px; text-decoration: none; font-size: 15px; }

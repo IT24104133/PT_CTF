@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IT Requests — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / IT Requests</div>
+        <div class="ph-toolbar">
+          <select id="ph-f-category"><option value="">All Categories</option>
+            <option>VPN</option><option>Password</option><option>Laptop</option><option>Software</option>
+            <option>Network</option><option>Email</option><option>MFA</option><option>Access</option>
+            <option>Hardware</option><option>New Employee</option><option>Offboarding</option>
+          </select>
+          <select id="ph-f-status"><option value="">All Statuses</option>
+            <option>Open</option><option>In Progress</option><option>Waiting for Employee</option><option>Resolved</option><option>Closed</option>
+          </select>
+          <span class="spacer"></span>
+          <button type="button" class="ph-btn" id="ph-new-ticket">Submit IT Ticket</button>
+        </div>
+        <div id="ph-it-table"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="ph-modal-backdrop" id="ph-it-modal" hidden>
+    <div class="ph-modal">
+      <div class="ph-modal-head"><h2>Submit IT Ticket</h2><button type="button" class="ph-modal-close" id="ph-it-close">&times;</button></div>
+      <form id="ph-it-form">
+        <div class="ph-field"><label>Category</label>
+          <select id="ph-it-category"><option>VPN</option><option>Password</option><option>Laptop</option><option>Software</option><option>Network</option><option>Email</option><option>MFA</option><option>Access</option><option>Hardware</option><option>New Employee</option><option>Offboarding</option></select>
+        </div>
+        <div class="ph-field"><label>Subject</label><input type="text" id="ph-it-subject" required maxlength="200"></div>
+        <div class="ph-field"><label>Description</label><textarea id="ph-it-desc" rows="4"></textarea></div>
+        <button type="submit" class="ph-btn">Submit Ticket</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="it-requests.js"></script>
+</body>
+</html>

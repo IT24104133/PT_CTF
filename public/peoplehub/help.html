@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help & Support — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Help &amp; Support</div>
+        <div class="ph-card"><h3>Getting Started</h3><p style="color:var(--ph-muted);">Use the sidebar to navigate PeopleHub. The Dashboard gives you a quick overview; the Employee Directory and Organization pages help you find people; HR and IT Requests are how you reach the teams that support you.</p></div>
+        <div class="ph-card"><h3>Common Questions</h3>
+          <div class="ph-list-row"><span>How do I request time off?</span><span>Leave &amp; Attendance &rarr; Request Leave</span></div>
+          <div class="ph-list-row"><span>How do I view my payslip?</span><span>Payroll</span></div>
+          <div class="ph-list-row"><span>How do I report an IT issue?</span><span>IT Requests &rarr; Submit IT Ticket</span></div>
+          <div class="ph-list-row"><span>Who do I contact for HR questions?</span><span>HR Requests &rarr; Submit HR Request</span></div>
+        </div>
+        <div class="ph-card"><h3>Contact Support</h3><p style="color:var(--ph-muted);">For anything not covered here, submit an HR Request or IT Ticket and a member of the team will follow up.</p></div>
+
+        <div class="ph-card">
+          <h3>Share Feedback with HR</h3>
+          <p style="color:var(--ph-muted);font-size:12.5px;">General feedback about the platform or your experience -- not urgent enough for a formal HR Request.</p>
+          <textarea id="ph-fb-input" class="ph-field" rows="3" style="width:100%;padding:9px 11px;border:1px solid var(--ph-border);border-radius:6px;font:inherit;" placeholder="Your feedback for the HR team..."></textarea>
+          <button type="button" class="ph-btn sm" id="ph-fb-send" style="margin-top:10px;">Send Feedback</button>
+          <p style="color:var(--ph-muted);font-size:11.5px;margin-top:14px;">HR REVIEW QUEUE PREVIEW (this is what the HR review queue will render)</p>
+          <div id="ph-fb-queue" style="border:1px solid var(--ph-border);border-radius:6px;padding:6px;min-height:40px;"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="help.js"></script>
+</body>
+</html>
