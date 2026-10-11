@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Training</div>
+        <div class="ph-card">
+          <h3>Courses</h3>
+          <div id="ph-courses" class="ph-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));"></div>
+        </div>
+        <div class="ph-toolbar">
+          <select id="ph-f-status"><option value="">All Statuses</option><option>Completed</option><option>In Progress</option><option>Not Started</option><option>Overdue</option></select>
+        </div>
+        <div id="ph-enroll-table"></div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="training.js"></script>
+</body>
+</html>

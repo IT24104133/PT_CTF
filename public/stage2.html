@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Prologue</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <script>document.documentElement.className += ' js';</script>
+</head>
+<body class="briefing">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg2)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> PROLOGUE &nbsp;/&nbsp; MISSION BRIEFING</div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="title">
+      <p class="eyebrow">INCIDENT RESPONSE &nbsp;·&nbsp; ACTIVE CASE</p>
+      <h1>PROLOGUE <span>—</span> THE CALL</h1>
+      <div class="stamp" aria-hidden="true">CONFIDENTIAL</div>
+    </section>
+
+    <div class="layout">
+
+      <!-- ===== the story ===== -->
+      <article class="story panel">
+        <div class="panel-h"><span>CASE BRIEFING</span><span class="mono">SOLSTICE DYNAMICS · SECURITY</span></div>
+
+        <p class="rv">At 6:42 on a Tuesday morning, Solstice Dynamics' security system noticed something strange. There was a sudden spike of failed login attempts on the HR portal. Twenty minutes later, someone logged in successfully as an admin — from an IP address nobody knew.</p>
+
+        <p class="rv">By the time Thahani, the Director of Security, saw the alert on her phone, the attacker was already gone. There was no ransom note. Nothing was destroyed. It was a quiet, careful break-in — and that made Thahani worry even more.</p>
+
+        <p class="rv">Solstice Dynamics' most valuable asset is the Meridian Engine, special software that controls shipping routes for half the company's clients. If a rival company got this software, it would be worth millions. Thahani already has one name in mind: a former contractor who left the company under strange circumstances eighteen months ago. Online, he goes only by a codename — <em class="hl">Ghost_Fen</em>.</p>
+
+        <p class="rv">She doesn't have enough proof to call the police yet. What she has is a hacked server, a strong feeling, and you — the newest member of her incident-response team, fresh out of training, about to be given a real case.</p>
+
+        <blockquote class="rv quote">
+          <span class="who">THAHANI · DIRECTOR OF SECURITY</span>
+          “I need someone to go back to the start,” she tells you. “I want to know every step he took. How he got in. What he touched. And most of all, I want proof it was him.”
+        </blockquote>
+
+        <p class="rv final">This case is now yours.</p>
+
+        <div class="cta rv">
+          <button id="accept" class="login-btn accept" type="button">
+            <span class="label">Accept the case</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p id="accept-err" class="accept-err" role="alert" hidden></p>
+          <p class="resume-hint">Played before and your session ran out? <a href="/map.html">Resume with a flag</a></p>
+        </div>
+      </article>
+
+      <!-- ===== case file sidebar ===== -->
+      <aside class="side">
+
+        <section class="panel">
+          <div class="panel-h"><span>INCIDENT TIMELINE</span></div>
+          <ol class="timeline">
+            <li>
+              <time>06:42</time>
+              <p>Sudden spike of failed login attempts on the HR portal.</p>
+            </li>
+            <li>
+              <time>07:02</time>
+              <p>Successful admin login from an IP address nobody knows.</p>
+            </li>
+            <li class="last">
+              <time>LATER</time>
+              <p>Thahani sees the alert. The attacker is already gone. No ransom note. Nothing destroyed.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>TARGET ASSET</span></div>
+          <div class="card-body col">
+            <h3>Meridian Engine</h3>
+            <p>Software that controls shipping routes for half the company's clients. Worth millions to a rival.</p>
+          </div>
+        </section>
+
+        <section class="panel suspect">
+          <div class="panel-h"><span>PERSON OF INTEREST</span><span class="tag">UNPROVEN</span></div>
+          <div class="card-body">
+            <div class="avatar" aria-hidden="true">?</div>
+            <div>
+              <h3>Ghost_Fen</h3>
+              <p>Codename only. Former contractor who left under strange circumstances eighteen months ago.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>MISSION OBJECTIVES</span></div>
+          <ul class="obj" id="obj">
+            <li><i></i> How he got in</li>
+            <li><i></i> What he touched</li>
+            <li><i></i> Proof it was him</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-h"><span>YOUR ROLE</span></div>
+          <div class="card-body">
+            <p>Newest member of the incident-response team, fresh out of training, reporting to Thahani.</p>
+          </div>
+        </section>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- Full screen scene played after "Accept the case" -->
+  <div id="cinema" class="cinema" aria-hidden="true" hidden>
+    <div class="cin-grid"></div>
+    <div class="cin-inner">
+      <p class="cin-eyebrow">CASE ACCEPTED</p>
+      <h2 class="cin-title">
+        <span style="--i:0">THIS</span>
+        <span style="--i:1">CASE</span>
+        <span style="--i:2">IS</span>
+        <span style="--i:3">NOW</span>
+        <span class="y" style="--i:4">YOURS.</span>
+      </h2>
+      <div class="cin-line"></div>
+      <p class="cin-sub">OPENING EXHIBIT A</p>
+      <div class="cin-bar"><i></i></div>
+    </div>
+  </div>
+
+  <script>
+    // Reveal the story paragraphs one by one as they scroll into view.
+    (function () {
+      var items = document.querySelectorAll('.rv');
+      if (!('IntersectionObserver' in window)) {
+        for (var i = 0; i < items.length; i++) items[i].classList.add('in');
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.15 });
+        for (var j = 0; j < items.length; j++) io.observe(items[j]);
+      }
+
+      // Returning players see "Continue" instead of "Accept".
+      var acceptBtn = document.getElementById('accept');
+      var acceptErr = document.getElementById('accept-err');
+      var cinema = document.getElementById('cinema');
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      fetch('/api/progress', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (d && d.accepted) acceptBtn.querySelector('.label').textContent = 'Continue the case';
+        })
+        .catch(function () {});
+
+      acceptBtn.addEventListener('click', function () {
+        acceptBtn.disabled = true;
+        acceptErr.hidden = true;
+
+        fetch('/api/accept', { method: 'POST', credentials: 'same-origin' })
+          .then(function (r) {
+            if (r.status === 401) { window.location.replace('/'); throw new Error('signed out'); }
+            return r.json();
+          })
+          .then(function (d) {
+            if (!d || !d.ok) throw new Error('failed');
+            var go = d.redirect || '/exhibit-a.html';
+            if (reduced) { window.location.href = go; return; }
+
+            // 1. the briefing slides away
+            document.body.classList.add('leaving');
+            // 2. the full screen "This case is now yours." scene plays
+            setTimeout(function () {
+              cinema.hidden = false;
+              void cinema.offsetWidth;
+              cinema.classList.add('play');
+            }, 650);
+            // 3. Exhibit A opens
+            setTimeout(function () { window.location.href = go + '?intro=1'; }, 5500);
+          })
+          .catch(function (e) {
+            if (e && e.message === 'signed out') return;
+            acceptBtn.disabled = false;
+            acceptErr.textContent = 'Could not open the case. Check the server and try again.';
+            acceptErr.hidden = false;
+          });
+      });
+
+      document.getElementById('logout').addEventListener('click', function () {
+        fetch('/api/logout', { method: 'POST', credentials: 'same-origin' })
+          .then(function () {}, function () {})
+          .then(function () { window.location.replace('/'); });
+      });
+    })();
+  </script>
+</body>
+</html>

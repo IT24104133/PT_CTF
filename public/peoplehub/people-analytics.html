@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>People Analytics — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / People Analytics</div>
+        <div class="ph-kpi-row" id="ph-kpis"></div>
+        <div class="ph-card">
+          <div class="ph-card-head"><h3>Headcount by Department</h3><a href="reports.html">Open full report library &rarr;</a></div>
+          <div id="ph-chart"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="people-analytics.js"></script>
+</body>
+</html>

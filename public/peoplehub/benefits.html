@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benefits — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Benefits</div>
+        <div class="ph-grid">
+          <div>
+            <div class="ph-card"><h3>Health Plans</h3><p style="color:var(--ph-muted);">Medical, dental, and vision coverage through Solstice Dynamics' group plan. Enrollment changes are accepted during the annual open enrollment window or within 30 days of a qualifying life event.</p></div>
+            <div class="ph-card"><h3>Retirement Savings</h3><p style="color:var(--ph-muted);">401(k)-style retirement plan with a company match on the first 4% of contributions, vesting over three years.</p></div>
+            <div class="ph-card"><h3>Wellness Programs</h3><p style="color:var(--ph-muted);">Access to an employee assistance program, an annual wellness stipend, and discounted gym memberships.</p></div>
+          </div>
+          <div>
+            <div class="ph-card"><h3>Enrollment Status</h3><div class="ph-list-row"><span>Current Plan Year</span><span class="ph-badge-pill green">Enrolled</span></div>
+              <div class="ph-list-row"><span>Next Enrollment Window</span><span>See Announcements</span></div></div>
+            <div class="ph-card"><h3>Need Help?</h3><p style="color:var(--ph-muted);font-size:12.5px;">Submit an HR Request under the Benefits category for enrollment changes or questions.</p>
+              <a class="ph-btn sm" href="hr-requests.html?new=1">Submit HR Request</a></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script>PeopleHubShell.init({ active: 'benefits.html', title: 'Benefits' });</script>
+</body>
+</html>

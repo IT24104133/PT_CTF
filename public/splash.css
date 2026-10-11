@@ -1,0 +1,147 @@
+/* Welcome splash shown before the login page (first visit in a browser tab). */
+
+#splash {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: #030a1a; color: #fff; overflow: hidden;
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "Courier New", monospace;
+  --amber: #f0b429;
+  --muted: #9fb2d2;
+}
+html.splash #splash { display: block; }
+html.splash, html.splash body { overflow: hidden; }
+#splash.leave { opacity: 0; transition: opacity 0.9s ease; pointer-events: none; }
+
+/* ---------- backdrop ---------- */
+.sp-grid {
+  position: absolute; inset: -20%;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(26, 123, 255, 0.26), transparent 70%),
+    linear-gradient(rgba(60, 110, 200, 0.10) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, rgba(60, 110, 200, 0.10) 1px, transparent 1px) 0 0 / 56px 56px;
+  transform: perspective(700px) rotateX(58deg) translateY(-6%);
+  transform-origin: 50% 100%;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 75%);
+}
+
+.sp-ping { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.sp-ping i {
+  position: absolute; left: 0; top: 0; width: min(74vmin, 680px); height: min(74vmin, 680px);
+  border: 1px solid rgba(43, 134, 255, 0.5); border-radius: 50%;
+  box-shadow: 0 0 24px rgba(26, 123, 255, 0.2);
+  transform: translate(-50%, -50%) scale(0.1); opacity: 0;
+  will-change: transform, opacity;
+  animation: sp-ring 4.2s ease-out infinite;
+}
+.sp-ping i:nth-child(2) { animation-delay: 1.4s; }
+.sp-ping i:nth-child(3) { animation-delay: 2.8s; }
+@keyframes sp-ring {
+  0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+  18% { opacity: 0.65; }
+  100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+}
+
+/* ---------- acts ---------- */
+.act {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 clamp(16px, 4vw, 48px); text-align: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.6s ease;
+}
+.act.on { opacity: 1; visibility: visible; }
+.act.on.out { opacity: 0; }
+
+.sp-eyebrow, .sp-sub, .sp-wish, .sp-shield, .sp-title span, .sp-advice li, .sp-adv-h { opacity: 0; }
+
+.sp-eyebrow {
+  margin: 0 0 22px; font-family: var(--mono); font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: 0.5em; padding-left: 0.5em; color: var(--amber); transform: translateY(10px);
+}
+.act.on .sp-eyebrow { animation: sp-fade 0.6s 0.15s forwards; }
+
+.sp-shield { width: 86px; height: 97px; margin-bottom: 30px; filter: drop-shadow(0 0 22px rgba(26, 123, 255, 0.7)); transform: scale(0.6); }
+.act.on .sp-shield { animation: sp-pop 0.9s cubic-bezier(0.2, 1.4, 0.4, 1) forwards; }
+
+.sp-title {
+  margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1em 0.3em;
+  font-size: clamp(38px, 8.4vw, 112px); font-weight: 800; line-height: 1.05; letter-spacing: 0.01em;
+  text-shadow: 0 0 60px rgba(26, 123, 255, 0.5);
+}
+.sp-title span { transform: translateY(30px) scale(1.08); filter: blur(14px); }
+.act.on .sp-title span { animation: sp-word 0.8s calc(0.3s + var(--i) * 0.28s) cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+.sp-title .y { color: #2b86ff; text-shadow: 0 0 40px rgba(43, 134, 255, 0.9), 0 0 100px rgba(26, 123, 255, 0.6); }
+.sp-title .br { flex-basis: 100%; height: 0; }
+
+.sp-line {
+  width: 0; height: 2px; margin: 32px auto 20px;
+  background: linear-gradient(90deg, transparent, #2b86ff, transparent);
+  box-shadow: 0 0 18px rgba(43, 134, 255, 0.9);
+}
+.act.on .sp-line { animation: sp-line 0.9s var(--tl, 1.5s) ease-out forwards; }
+
+.sp-sub {
+  margin: 0; font-family: var(--mono); font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: 0.4em; padding-left: 0.4em; color: var(--muted);
+}
+.act.on .sp-sub { animation: sp-fade 0.6s var(--ts, 2s) forwards; }
+
+/* act 3: the wish and the advice */
+.a3 .sp-title { font-size: clamp(30px, 6.2vw, 86px); }
+.sp-wish {
+  margin: 26px 0 0; font-size: clamp(19px, 2.4vw, 30px); font-weight: 500; color: #dfe8f8; transform: translateY(12px);
+}
+.act.on .sp-wish { animation: sp-fade 0.7s 2.1s forwards; }
+
+.sp-advice {
+  width: min(640px, 100%); margin-top: clamp(18px, 3vh, 34px); padding: 18px clamp(16px, 3vw, 26px) 20px; text-align: left;
+  background: rgba(13, 31, 63, 0.72); border: 1px solid #17325f; border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.sp-adv-h { margin: 0 0 12px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.26em; color: #8fb6ff; transform: translateY(10px); }
+.act.on .sp-adv-h { animation: sp-fade 0.6s 2.7s forwards; }
+.sp-advice ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.sp-advice li {
+  display: flex; gap: 14px; align-items: baseline; font-size: clamp(15px, 1.7vw, 19px); line-height: 1.5; color: #e6eefc;
+  transform: translateY(12px);
+}
+.sp-advice li b { flex: none; font-family: var(--mono); font-size: 13px; font-weight: 400; color: var(--amber); letter-spacing: 0.1em; }
+.act.on .sp-advice li { animation: sp-fade 0.7s calc(3.2s + var(--k) * 0.8s) forwards; }
+
+/* ---------- chrome ---------- */
+.sp-dots { position: absolute; left: 50%; bottom: clamp(20px, 4vh, 40px); transform: translateX(-50%); display: flex; gap: 10px; }
+.sp-dots i { width: 28px; height: 3px; border-radius: 3px; background: #1a2f57; transition: background 0.4s, box-shadow 0.4s; }
+.sp-dots i.on { background: #2b86ff; box-shadow: 0 0 12px rgba(43, 134, 255, 0.9); }
+
+.sp-skip {
+  position: absolute; right: clamp(16px, 3vw, 32px); bottom: clamp(16px, 3vw, 32px);
+  padding: 8px 18px; border-radius: 8px; border: 1px solid #1d3c72; background: rgba(10, 24, 50, 0.7);
+  color: var(--muted); font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.2em; cursor: pointer;
+  opacity: 0; animation: sp-fade 0.5s 1s forwards;
+}
+.sp-skip:hover { color: #fff; border-color: #1a7bff; }
+
+@keyframes sp-word { to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes sp-fade { to { opacity: 1; transform: none; } }
+@keyframes sp-pop { to { opacity: 1; transform: none; } }
+@keyframes sp-line { to { width: min(420px, 70vw); } }
+
+/* ---------- the login page rises in when the splash ends ---------- */
+body.entered .brand, body.entered h1, body.entered .lead, body.entered .card, body.entered .steps {
+  animation: sp-rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+body.entered .brand { animation-delay: 0.1s; }
+body.entered h1 { animation-delay: 0.3s; }
+body.entered .lead { animation-delay: 0.42s; }
+body.entered .card { animation-delay: 0.55s; }
+body.entered .steps { animation-delay: 0.85s; }
+body.entered .hero { animation: sp-hero 1.8s 0.1s ease backwards; }
+@keyframes sp-rise { from { opacity: 0; transform: translateY(28px); } }
+@keyframes sp-hero { from { opacity: 0; transform: scale(1.06); } }
+
+@media (max-width: 640px) {
+  .sp-shield { width: 64px; height: 72px; margin-bottom: 22px; }
+  .sp-eyebrow { letter-spacing: 0.34em; }
+  .sp-advice li b { display: none; }
+}

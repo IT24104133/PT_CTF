@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Administration</div>
+        <div class="ph-tabs">
+          <button class="ph-tab active" data-tab="users">Users</button>
+          <button class="ph-tab" data-tab="roles">Roles</button>
+          <button class="ph-tab" data-tab="departments">Departments</button>
+          <button class="ph-tab" data-tab="import">Import Jobs</button>
+          <a class="ph-tab" href="import.html" style="display:inline-flex;align-items:center;">Employee Data Import &#8599;</a>
+          <button class="ph-tab" data-tab="reports">Reports</button>
+          <button class="ph-tab" data-tab="audit">Audit Logs</button>
+          <button class="ph-tab" data-tab="security">Security Events</button>
+        </div>
+        <div class="ph-tab-panel active" id="tab-users"><div id="ph-admin-users"></div></div>
+        <div class="ph-tab-panel" id="tab-roles"><div id="ph-admin-roles"></div></div>
+        <div class="ph-tab-panel" id="tab-departments"><div id="ph-admin-departments"></div></div>
+        <div class="ph-tab-panel" id="tab-import"><div id="ph-admin-import"></div></div>
+        <div class="ph-tab-panel" id="tab-reports"><p style="color:var(--ph-muted);">See <a href="reports.html">People Analytics &rarr; Reports</a>.</p></div>
+        <div class="ph-tab-panel" id="tab-audit"><div id="ph-admin-audit"></div></div>
+        <div class="ph-tab-panel" id="tab-security"><div id="ph-admin-security"></div></div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="administration.js"></script>
+</body>
+</html>

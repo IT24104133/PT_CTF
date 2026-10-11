@@ -1,0 +1,134 @@
+/* Interactive "lab" widgets used on the Stage 3-6 pages: mini vulnerable forms, terminal-style
+   output, a log viewer, tables. Builds on style.css, stage2.css and exhibit.css. */
+
+.lab {
+  margin: 0 clamp(18px, 3vw, 36px) 28px;
+  padding: 18px clamp(16px, 3vw, 22px) 20px;
+  background: rgba(10, 24, 50, 0.55);
+  border: 1px solid #1d3c72;
+  border-radius: 10px;
+}
+.lab + .lab { margin-top: -8px; }
+.lab-h {
+  display: flex; align-items: center; gap: 10px; margin: 0 0 14px;
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.18em; color: #8fb6ff;
+}
+.lab-h .n { color: var(--amber); }
+.lab-desc { margin: 0 0 14px; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+
+.lab-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin-bottom: 10px; }
+.lab-row .field { flex: 1 1 180px; margin-bottom: 0; height: 46px; }
+.lab-row .field input { font-family: var(--mono); font-size: 14.5px; }
+.lab-btn {
+  flex: none; padding: 0 20px; height: 46px; border-radius: 9px; border: 1px solid #2a4a82;
+  background: #123064; color: #fff; font: inherit; font-size: 14.5px; cursor: pointer; transition: filter 0.15s, transform 0.1s;
+}
+.lab-btn:hover { filter: brightness(1.18); }
+.lab-btn:active { transform: translateY(1px); }
+.lab-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.lab-btn.primary { background: linear-gradient(180deg, #1f86ff, #0a6af0); border-color: transparent; }
+
+textarea.lab-input {
+  width: 100%; min-height: 96px; resize: vertical; padding: 12px 14px; margin-bottom: 10px;
+  background: var(--field); color: var(--text); border: 1px solid #1d3c72; border-radius: 9px;
+  font-family: var(--mono); font-size: 13.5px; line-height: 1.5; outline: 0;
+}
+textarea.lab-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26, 123, 255, 0.2); }
+
+.lab-out {
+  margin-top: 4px; padding: 12px 14px; border-radius: 9px; background: #060f22; border: 1px solid #17325f;
+  font-family: var(--mono); font-size: 13px; line-height: 1.6; color: #cfe0ff; min-height: 20px;
+  white-space: pre-wrap; word-break: break-word;
+}
+.lab-out:empty { display: none; }
+.lab-out .ok { color: var(--ok); }
+.lab-out .bad { color: var(--err); }
+.lab-out .leak { display: block; margin-top: 8px; padding: 10px 12px; border-radius: 7px; background: rgba(240, 180, 41, 0.08); border: 1px dashed rgba(240, 180, 41, 0.5); color: #f3dca0; }
+
+.lab-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13.5px; }
+.lab-table th, .lab-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid #16305c; }
+.lab-table th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: #8fb6ff; font-weight: 400; }
+.lab-table tr.leak-row td { color: var(--amber); background: rgba(240, 180, 41, 0.06); }
+.lab-table tr.leak-row td:first-child { font-family: var(--mono); }
+
+.lab-status { display: inline-flex; align-items: center; gap: 6px; margin-left: 6px; font-family: var(--mono); font-size: 12px; }
+.lab-status i { width: 9px; height: 9px; border-radius: 50%; background: #3a5a92; }
+.lab-status.on i { background: var(--ok); box-shadow: 0 0 8px rgba(46, 204, 143, 0.8); }
+.lab-status.on { color: var(--ok); }
+
+/* stored-XSS preview surface: this is our own sandboxed widget, rendered on purpose */
+.inbox {
+  margin-top: 10px; padding: 12px 14px; border-radius: 9px; background: #fff; color: #1a1a1a;
+  font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.5; min-height: 40px;
+  border: 2px solid #2a4a82;
+}
+.inbox .msg { padding: 6px 0; border-bottom: 1px solid #e3e3e3; }
+.inbox .msg:last-child { border-bottom: 0; }
+.inbox-label { margin: 0 0 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em; color: var(--muted); }
+
+/* IDOR payslip viewer */
+.idor-view { margin-top: 10px; }
+.idor-card {
+  padding: 12px 14px; border-radius: 9px; background: #060f22; border: 1px solid #17325f;
+  font-family: var(--mono); font-size: 13.5px; color: #cfe0ff; display: grid; gap: 4px;
+}
+.idor-card .k { color: #8fb6ff; }
+.idor-card.mine { border-color: #2a4a82; }
+.idor-card.other { border-color: rgba(240, 180, 41, 0.5); background: rgba(240, 180, 41, 0.06); }
+.idor-card .debt { color: var(--amber); }
+
+/* log viewer for Stage 5 */
+.log-view {
+  margin: 0 clamp(18px, 3vw, 36px) 24px; max-height: 360px; overflow: auto;
+  background: #060f22; border: 1px solid #17325f; border-radius: 10px; padding: 12px 14px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.65; color: #b9c9e6; white-space: pre;
+}
+.log-view mark { background: rgba(240, 180, 41, 0.25); color: #ffe9a8; border-radius: 3px; padding: 0 2px; }
+.log-tabs { display: flex; gap: 8px; margin: 0 clamp(18px, 3vw, 36px) 10px; }
+.log-tab {
+  padding: 7px 14px; border-radius: 7px 7px 0 0; border: 1px solid #1d3c72; border-bottom: none;
+  background: #0d1f3f; color: var(--muted); font-family: var(--mono); font-size: 12.5px; cursor: pointer;
+}
+.log-tab.on { background: #060f22; color: #fff; }
+.dl-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 clamp(18px, 3vw, 36px) 20px; }
+
+/* prefetch / thumbcache text panels for Stage 6 */
+.evi-text {
+  margin: 0 clamp(18px, 3vw, 36px) 20px; max-height: 320px; overflow: auto;
+  background: #060f22; border: 1px solid #17325f; border-radius: 10px; padding: 12px 14px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.65; color: #b9c9e6; white-space: pre;
+}
+
+@media (max-width: 640px) {
+  .lab-row { flex-direction: column; }
+  .lab-row .field, .lab-btn { width: 100%; }
+}
+
+/* ---------- shared bits the Stage 3-6 pages need (also defined in exhibit-b.css for Stage 2) ---------- */
+.qlist { display: grid; gap: 20px; margin-bottom: 22px; }
+.qlabel { display: block; margin-bottom: 8px; font-size: 16px; line-height: 1.45; color: #e6eefc; }
+.qlabel b { display: inline-block; margin-right: 10px; padding: 1px 8px; border-radius: 5px; background: rgba(240, 180, 41, 0.12); border: 1px solid rgba(240, 180, 41, 0.45); font-family: var(--mono); font-size: 12.5px; font-weight: 400; letter-spacing: 0.12em; color: var(--amber); }
+.qlist .field { margin-bottom: 0; }
+
+.notready-msg { display: none; margin: 18px clamp(18px, 3vw, 30px) 0; color: var(--amber); font-size: 15px; }
+.submit.notready .notready-msg { display: block; }
+.submit.notready form { opacity: 0.55; pointer-events: none; }
+
+.dl {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
+  background: #0a4fc4; border: 1px solid #2f8bff; border-radius: 8px;
+  color: #fff; font-family: Inter, "Segoe UI", system-ui, sans-serif; font-size: 14px; letter-spacing: 0; text-decoration: none;
+  transition: filter 0.15s, transform 0.1s;
+}
+.dl:hover { filter: brightness(1.15); }
+.dl:active { transform: translateY(1px); }
+.dl svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* the submit form's inner spacing, same as the earlier stages */
+.submit .field { position: relative; }
+.submit .field.ok { border-color: var(--ok); box-shadow: 0 0 0 3px rgba(46, 204, 143, 0.15); }
+.submit .field.bad { border-color: var(--err); box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.14); }
+.res-mark { flex: none; width: 44px; display: grid; place-items: center; }
+.res-mark svg { width: 20px; height: 20px; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.field.ok .res-mark svg { stroke: var(--ok); }
+.field.bad .res-mark svg { stroke: var(--err); }

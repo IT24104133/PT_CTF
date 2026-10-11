@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documents — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Documents</div>
+
+        <div id="ph-doc-detail" hidden class="ph-card"></div>
+
+        <div id="ph-doc-list-view">
+          <div class="ph-toolbar">
+            <input type="search" id="ph-doc-search" placeholder="Search documents…">
+            <select id="ph-doc-type"><option value="">All Types</option>
+              <option>Employment Contract</option><option>Policy</option><option>Performance Review</option>
+              <option>Compensation Letter</option><option>Leave Approval</option><option>Onboarding</option>
+              <option>Offboarding</option><option>Benefits</option><option>Internal Memo</option>
+              <option>Compliance</option><option>Training</option>
+            </select>
+          </div>
+          <div id="ph-doc-table"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="documents.js"></script>
+</body>
+</html>

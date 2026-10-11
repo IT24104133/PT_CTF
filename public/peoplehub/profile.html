@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My Profile — Solstice PeopleHub</title>
+</head>
+<body>
+  <script src="shared/api.js"></script>
+  <script>
+    PH.get('/me').then((r) => {
+      if (r.ok && r.data.employee) window.location.replace('employee-profile.html?id=' + encodeURIComponent(r.data.employee.employee_id));
+      else window.location.replace('dashboard.html');
+    });
+  </script>
+</body>
+</html>

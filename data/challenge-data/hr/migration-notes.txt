@@ -1,0 +1,18 @@
+HR PLATFORM MIGRATION -- INTERNAL NOTES
+Migration project: PeopleHub Cutover (Solstice Dynamics)
+Owner: IT Infrastructure
+Status: Mostly complete
+
+This is a running notes file for the legacy-to-PeopleHub employee data migration. Most of the
+heavy lifting is done; a few loose ends remain from the original HRIS.
+
+Open items:
+- Directory sync between the legacy system and PeopleHub sometimes drops custom fields on
+  records touched during the freeze window. See the sync log for the last full run:
+  hr/directory-sync.txt
+- Import validation rules were tightened after the January incident. Current settings no longer
+  live in this folder -- they were moved during the config cleanup.
+- Archive of the full migration history (including the manual emergency-access provisioning
+  done during cutover week) is kept separately and should NOT be deleted before the Q3 audit.
+
+-- M. Delgado, IT Infrastructure

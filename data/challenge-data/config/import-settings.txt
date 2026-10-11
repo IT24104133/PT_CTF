@@ -1,0 +1,18 @@
+EMPLOYEE IMPORT -- VALIDATION CONFIG (legacy, relocated from hr/ during cleanup)
+
+max_records_per_batch = 500
+require_department_match = true
+reject_on_duplicate_email = true
+allowed_employment_types = Full Time, Part Time, Contractor, Temporary, Intern, Consultant
+notify_on_reject = it-infra@solstice.example
+
+Change log:
+- 2026-01-18: Tightened duplicate-email rejection after the January incident (see migration
+  notes for context).
+- 2025-11-02: No changes; carried forward from directory sync run sync-2025-11-02-0314.
+
+Note: the original migration history, including the emergency-access provisioning that was done
+by hand during cutover week (before RBAC was fully live), is archived separately. Security asked
+for it to stay retrievable without restoring backups, so it wasn't purged with the rest of the
+cutover scratch files:
+archive/migration-history.txt

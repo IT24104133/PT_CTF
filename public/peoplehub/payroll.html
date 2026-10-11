@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payroll — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Payroll</div>
+        <div class="ph-toolbar" id="ph-payroll-lookup" hidden>
+          <input type="text" id="ph-payroll-id" placeholder="Employee ID, e.g. SD-10001">
+          <button type="button" class="ph-btn ghost sm" id="ph-payroll-go">Look Up</button>
+        </div>
+        <div class="ph-card" id="ph-payroll-card"><div class="ph-skeleton" style="height:120px;"></div></div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="payroll.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / People Analytics / Reports</div>
+        <div id="ph-report-list" class="ph-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));"></div>
+
+        <div id="ph-report-detail" hidden>
+          <div class="ph-card">
+            <div class="ph-card-head"><h2 id="ph-report-title" style="margin:0;"></h2><a href="reports.html">&larr; All Reports</a></div>
+            <p id="ph-report-desc" style="color:var(--ph-muted);"></p>
+            <div class="ph-toolbar">
+              <input type="text" id="ph-report-segment" placeholder="Filter to one segment (e.g. a department name)…">
+              <button type="button" class="ph-btn ghost sm" id="ph-report-run">Apply</button>
+            </div>
+            <div id="ph-report-results"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="reports.js"></script>
+</body>
+</html>

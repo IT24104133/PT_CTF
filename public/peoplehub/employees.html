@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employee Directory — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Employee Directory</div>
+
+        <div class="ph-toolbar">
+          <input type="search" id="ph-dir-search" placeholder="Search by name, ID, job title, department, location…">
+          <select id="ph-f-department"><option value="">All Departments</option></select>
+          <select id="ph-f-status"><option value="">All Statuses</option></select>
+          <select id="ph-f-type"><option value="">All Employment Types</option></select>
+          <select id="ph-f-location"><option value="">All Locations</option></select>
+          <select id="ph-f-grade"><option value="">All Grades</option></select>
+          <select id="ph-f-manager"><option value="">All Managers</option></select>
+          <span class="spacer"></span>
+          <button type="button" class="ph-btn ghost sm" id="ph-export">Export</button>
+        </div>
+
+        <div id="ph-dir-table"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="employees.js"></script>
+</body>
+</html>

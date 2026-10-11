@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Settings</div>
+        <div class="ph-card">
+          <h3>Account</h3>
+          <div id="ph-account-info"></div>
+        </div>
+        <div class="ph-card" id="security">
+          <h3>Security</h3>
+          <div class="ph-list-row"><span>Password</span><button class="ph-btn ghost sm" type="button" onclick="PH.toast('Password changes are managed by IT Support.')">Change Password</button></div>
+          <div class="ph-list-row"><span>Two-Factor Authentication</span><span class="ph-badge-pill amber">Not Enabled</span></div>
+          <div class="ph-list-row"><span>Active Sessions</span><span>1 active session (this device)</span></div>
+        </div>
+        <div class="ph-card">
+          <h3>Notification Preferences</h3>
+          <div class="ph-list-row"><span>Email notifications</span><input type="checkbox" checked></div>
+          <div class="ph-list-row"><span>In-app notifications</span><input type="checkbox" checked></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script>
+    (async () => {
+      const me = await PeopleHubShell.init({ active: 'settings.html', title: 'Settings' });
+      if (!me) return;
+      document.getElementById('ph-account-info').innerHTML =
+        '<div class="ph-list-row"><span>Username</span><span>' + PH.esc(me.username) + '</span></div>' +
+        '<div class="ph-list-row"><span>Role</span><span>' + PH.esc(me.role) + '</span></div>' +
+        (me.employee ? '<div class="ph-list-row"><span>Employee ID</span><span>' + PH.esc(me.employee.employee_id) + '</span></div>' : '');
+    })();
+  </script>
+</body>
+</html>

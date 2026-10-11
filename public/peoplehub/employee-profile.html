@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employee Profile — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / <a href="employees.html">Employee Directory</a> / <span id="ph-crumb-name">Profile</span></div>
+
+        <div id="ph-profile-head" class="ph-card"></div>
+
+        <div class="ph-tabs" id="ph-profile-tabs">
+          <button class="ph-tab active" data-tab="overview">Overview</button>
+          <button class="ph-tab" data-tab="contact">Contact</button>
+          <button class="ph-tab" data-tab="employment">Employment</button>
+          <button class="ph-tab" data-tab="organization">Organization</button>
+          <button class="ph-tab" data-tab="leave">Leave</button>
+          <button class="ph-tab" data-tab="performance">Performance</button>
+          <button class="ph-tab" data-tab="documents">Documents</button>
+          <button class="ph-tab" data-tab="access">Access</button>
+        </div>
+
+        <div class="ph-tab-panel active" id="tab-overview"></div>
+        <div class="ph-tab-panel" id="tab-contact"></div>
+        <div class="ph-tab-panel" id="tab-employment"></div>
+        <div class="ph-tab-panel" id="tab-organization"></div>
+        <div class="ph-tab-panel" id="tab-leave"></div>
+        <div class="ph-tab-panel" id="tab-performance"></div>
+        <div class="ph-tab-panel" id="tab-documents"></div>
+        <div class="ph-tab-panel" id="tab-access"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="employee-profile.js"></script>
+</body>
+</html>

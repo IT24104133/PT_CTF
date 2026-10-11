@@ -1,0 +1,14 @@
+{
+  "name": "solstice-ctf-login",
+  "version": "1.0.0",
+  "description": "Solstice CTF: Vaaranan IT24104133 Stage 2 and PeopleHub component contribution",
+  "private": true,
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "seed:peoplehub": "node src/seed/seed.js",
+    "inspect:exif": "node src/lib/exif.js data/evidence/X45ghLL.jpg"
+  },
+  "license": "UNLICENSED"
+}

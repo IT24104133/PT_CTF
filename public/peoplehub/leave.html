@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leave & Attendance — Solstice PeopleHub</title>
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+  <div id="ph-shell">
+    <aside id="ph-sidebar"></aside>
+    <div id="ph-main">
+      <header id="ph-header"></header>
+      <main id="ph-content">
+        <div class="ph-breadcrumb"><a href="dashboard.html">Dashboard</a> / Leave &amp; Attendance</div>
+        <div class="ph-toolbar">
+          <select id="ph-f-status"><option value="">All Statuses</option>
+            <option>Approved</option><option>Pending</option><option>Rejected</option><option>Cancelled</option>
+          </select>
+          <span class="spacer"></span>
+          <button type="button" class="ph-btn" id="ph-new-leave">Request Leave</button>
+        </div>
+        <div id="ph-leave-table"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="ph-modal-backdrop" id="ph-leave-modal" hidden>
+    <div class="ph-modal">
+      <div class="ph-modal-head"><h2>Request Leave</h2><button type="button" class="ph-modal-close" id="ph-leave-close">&times;</button></div>
+      <form id="ph-leave-form">
+        <div class="ph-field"><label>Leave Type</label>
+          <select id="ph-leave-type"><option>Annual Leave</option><option>Sick Leave</option><option>Personal Leave</option><option>Parental Leave</option><option>Emergency Leave</option><option>Unpaid Leave</option></select>
+        </div>
+        <div class="ph-form-row">
+          <div class="ph-field"><label>Start Date</label><input type="date" id="ph-leave-start" required></div>
+          <div class="ph-field"><label>End Date</label><input type="date" id="ph-leave-end" required></div>
+        </div>
+        <div class="ph-field"><label>Reason (optional)</label><textarea id="ph-leave-reason" rows="3"></textarea></div>
+        <button type="submit" class="ph-btn">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="shared/table.js"></script>
+  <script src="leave.js"></script>
+</body>
+</html>

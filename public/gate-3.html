@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solstice CTF | Stage 3 Locked</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sound.js"></script>
+  <link rel="stylesheet" href="stage2.css">
+  <link rel="stylesheet" href="gate.css">
+</head>
+<body class="briefing gate-page">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="tb-brand">
+      <svg viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg6" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2f8bff"/><stop offset="1" stop-color="#0a3fb8"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 2 L60 12 V36 C60 54 48 66 32 71 C16 66 4 54 4 36 V12 Z" fill="url(#sg6)" stroke="#dbe9ff" stroke-width="3"/>
+        <rect x="21" y="32" width="22" height="18" rx="3" fill="#fff"/>
+        <path d="M25 32 V26 a7 7 0 0 1 14 0 V32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>SOLSTICE <b>CTF</b></span>
+    </div>
+    <div class="tb-mid"><i class="dot"></i> <span id="tb-state">STAGE 3 &nbsp;/&nbsp; LOCKED</span></div>
+    <div class="tb-right"><span class="out music-credit" id="music-credit" title="Jim Yosef - Link [NCS Release] · Music provided by NoCopyrightSounds"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>NCS</span></span><input type="range" id="sound-volume" class="sound-volume" min="0" max="100" value="100" step="5" aria-label="Music volume" title="Music volume (max 20%)"><button class="out sound-toggle" id="sound-toggle" type="button" aria-label="Toggle sound" aria-pressed="true"><svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9.5 9.5 0 0 1 0 13"/></svg><svg class="icon-off" viewBox="0 0 24 24" hidden><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg></button><a class="out map-link" href="/map.html">Case Map</a><button class="out" id="logout" type="button">Log out</button></div>
+  </header>
+
+  <main class="gate-wrap">
+    <section class="panel gate-card gate" id="gate">
+      <svg class="gate-lock" viewBox="0 0 64 64" aria-hidden="true">
+        <g class="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8"/></g>
+        <rect x="12" y="28" width="40" height="28" rx="6" class="body"/>
+        <circle cx="32" cy="41" r="4" class="keyhole"/>
+        <path d="M32 44v6" class="keyhole-stem"/>
+      </svg>
+
+      <p class="gate-eyebrow" id="gate-eyebrow">STAGE 3 · SEALED</p>
+      <h1 id="gate-title">This stage is locked</h1>
+      <p class="gate-lead" id="gate-lead">Stage 3 opens with the flag you earned in Stage 2, Exhibit B. Paste it below to break the seal.</p>
+
+      <form id="unlock" autocomplete="off" novalidate>
+        <label class="flag-label" for="flag">FLAG FROM STAGE 2</label>
+        <textarea id="flag" name="flag" rows="3" placeholder="RP{...}" spellcheck="false" autocapitalize="off" autocomplete="off" maxlength="2000"></textarea>
+
+        <button id="unlock-btn" class="login-btn" type="submit">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>
+          <span class="label">Unlock Stage 3</span>
+        </button>
+
+        <p id="status" class="hint" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <span id="status-text">Tip: press Ctrl and Enter to unlock.</span>
+        </p>
+      </form>
+
+      <a class="gate-back" href="/exhibit-b.html">← Back to Exhibit B</a>
+    </section>
+  </main>
+
+  <script src="gate-3.js"></script>
+</body>
+</html>
