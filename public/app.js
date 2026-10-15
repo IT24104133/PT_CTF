@@ -112,6 +112,11 @@
           setTimeout(function () { window.location.href = r.data.redirect || '/stage2.html'; }, 1400);
           return;
         }
+        if (r.status === 401 && r.data.needsAccount) {
+          say(r.data.error + ' Redirecting...', 'error');
+          setTimeout(function () { window.location.href = r.data.redirect || '/?form=login'; }, 1200);
+          return;
+        }
         if (r.status === 429) {
           var wait = parseInt(r.res.headers.get('Retry-After'), 10) || 60;
           lockFor(wait);

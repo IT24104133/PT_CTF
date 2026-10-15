@@ -11,8 +11,13 @@ const XXE = require('./lib/xxe');
 const PeopleHub = require('./lib/peoplehub/router');
 const PeopleHubDb = require('./lib/peoplehub/db');
 const PeopleHubChallenge = require('./lib/peoplehub/challengeState');
+const Platform = require('./lib/platform/router');
+const { NEXT_PAGE } = require('./lib/platform/catalog');
 
 const PORT = process.env.PORT || 3000;
+// Challenge sessions must belong to a signed-in platform account so every solve is scored.
+// ALLOW_ANONYMOUS_PLAY=1 restores the old anonymous, unscored behaviour (local tinkering only).
+const REQUIRE_ACCOUNT = process.env.ALLOW_ANONYMOUS_PLAY !== '1';
 const ROOT_DIR = path.join(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 // The three data locations can be overridden so tests run on a throwaway copy.
@@ -219,6 +224,87 @@ function adminAllowed(req) {
   return process.env.DISABLE_CTF_ADMIN !== '1' && fromLoopback(req);
 }
 
+function sidCookie(req, token, maxAgeSeconds) {
+  const secure = secureFlag(req);
+  return 'sid=' + token + '; HttpOnly' + Platform.sameSiteAttr(secure !== '', true) + '; Path=/; Max-Age=' + maxAgeSeconds + secure;
+}
+
+// A brand-new challenge session. playerId ties it to a platform account so verified solves
+// are scored for that account; it is never read from anything the client sends.
+function createCtfSession(username, player) {
+  const token = crypto.randomBytes(32).toString('hex');
+  sessions.set(token, {
+    username,
+    playerId: player ? player.id : null,
+    expires: Date.now() + SESSION_TTL_MS,
+    accepted: false,
+    solved: false,    // Exhibit A answered
+    stage2: false,    // Stage 2 unlocked with the Exhibit A flag
+    solved2: false,   // Exhibit B answered
+    stage3: false,
+    solved3: false,
+    stage4: false,
+    solved4: false,
+    dhalf: false,     // acknowledged Exhibit D½
+    stage5: false,
+    solved5: false,
+    stage6: false,
+    solved6: false,
+    lab3: { hrEntered: false, loginBypassed: false, noteLeaked: false, xssCaptured: false, token: null },
+    lab4: { leaked: false },
+    payslipId: 4413 + (crypto.randomInt ? crypto.randomInt(0, 50) : 0),
+    tries: [], flagTries: [], bTries: [],
+    lab3Tries: [], cTries: [], flagTries3: [],
+    lab4Tries: [], dTries: [], flagTries4: [],
+    flagTries5: [], eTries: [],
+    flagTries6: [], fTries: [],
+  });
+  return token;
+}
+
+// Switches on everything up to and including `lock` exhibits. Progress only ever moves forward.
+function applyLock(s, lock) {
+  if (lock >= 1) { s.accepted = true; s.solved = true; s.stage2 = true; }
+  if (lock >= 2) { s.solved2 = true; s.stage3 = true; }
+  if (lock >= 3) { s.solved3 = true; s.stage4 = true; }
+  if (lock >= 4) { s.solved4 = true; s.stage5 = true; }   // Exhibit D½ still plays once, then Stage 5 is already open
+  if (lock >= 5) { s.solved5 = true; s.stage6 = true; }
+  if (lock >= 6) { s.solved6 = true; }
+}
+
+// Called only after a handler's own answer check has passed.
+function award(s, key, out) {
+  if (!s.playerId) return;
+  const result = Platform.recordSolve(s.playerId, key);
+  out.platform = { awarded: result.awarded, points: result.points || 0, score: result.score, completed: !!result.completed };
+}
+
+// What the platform needs from the challenge sessions that live in this process.
+const ctfBridge = {
+  // Where "Start / Continue" should take this player. Progress comes from the database, so a
+  // returning player resumes after logging out, restarting the server or losing the hourly session.
+  play(req, user) {
+    const { entryDone, lock } = Platform.progressLock(user.id);
+    if (!entryDone) return { redirect: '/entry-gate.html' };
+    let s = getSession(req);
+    let cookie = null;
+    if (!s || s.playerId !== user.id) {
+      const token = createCtfSession(user.username, user);
+      s = sessions.get(token);
+      s.token = token;
+      cookie = sidCookie(req, token, SESSION_TTL_MS / 1000);
+    }
+    applyLock(s, lock);
+    const redirect = lock === 0 ? (s.accepted ? '/exhibit-a.html' : NEXT_PAGE[0]) : NEXT_PAGE[lock];
+    return { redirect, cookie };
+  },
+  dropSessions(userId) {
+    for (const [token, s] of sessions) if (s.playerId === userId) sessions.delete(token);
+  },
+};
+
+const platformCtx = { clientIp, secure: (req) => secureFlag(req) !== '', ctf: ctfBridge };
+
 // Returns the live session object (mutable) with its token attached, or null.
 function getSession(req) {
   const m = /(?:^|;\s*)sid=([a-f0-9]+)/.exec(req.headers.cookie || '');
@@ -285,8 +371,28 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // ----- competition platform: accounts, dashboard, leaderboard, organiser console -----
+  if (pathname.startsWith('/api/platform/')) {
+    if (await Platform.handleApi(req, res, new URL(req.url, 'http://localhost'), platformCtx)) return;
+  }
+  if (isRead) {
+    const page = Platform.resolvePage(req, pathname);
+    if (page) {
+      if (page.redirect) return redirect(res, page.redirect);
+      if (page.notFound) return send(res, 404, 'Not found');
+      if (Platform.sendPage(res, page.file, req.method === 'HEAD')) return;
+    }
+  }
+
   // ----- login / logout / progress -----
   if (req.method === 'POST' && pathname === '/api/login') {
+    const player = Platform.playerFromRequest(req);
+    if (REQUIRE_ACCOUNT && !player) {
+      return send(res, 401, { ok: false, needsAccount: true, redirect: '/?form=login&next=/dashboard', error: 'Sign in to your Solstice account first.' });
+    }
+    if (player && (player.role !== 'user' || player.status !== 'active')) {
+      return send(res, 403, { ok: false, error: 'This account cannot play the challenges.' });
+    }
     const now = Date.now();
     let a = attempts.get(ip);
     if (!a || a.resetAt < now) a = { count: 0, resetAt: now + WINDOW_MS };
@@ -313,35 +419,18 @@ const server = http.createServer(async (req, res) => {
     const check = checkCredentials(username, password);
     if (check.ok) {
       attempts.delete(ip);
-      const token = crypto.randomBytes(32).toString('hex');
-      sessions.set(token, {
-        username,
-        expires: Date.now() + SESSION_TTL_MS,
-        accepted: false,
-        solved: false,    // Exhibit A answered
-        stage2: false,    // Stage 2 unlocked with the Exhibit A flag
-        solved2: false,   // Exhibit B answered
-        stage3: false,
-        solved3: false,
-        stage4: false,
-        solved4: false,
-        dhalf: false,     // acknowledged Exhibit D½
-        stage5: false,
-        solved5: false,
-        stage6: false,
-        solved6: false,
-        lab3: { hrEntered: false, loginBypassed: false, noteLeaked: false, xssCaptured: false, token: null },
-        lab4: { leaked: false },
-        payslipId: 4413 + (crypto.randomInt ? crypto.randomInt(0, 50) : 0),
-        tries: [], flagTries: [], bTries: [],
-        lab3Tries: [], cTries: [], flagTries3: [],
-        lab4Tries: [], dTries: [], flagTries4: [],
-        flagTries5: [], eTries: [],
-        flagTries6: [], fTries: [],
-      });
-      return send(res, 200, { ok: true, redirect: '/stage2.html' }, {
-        'Set-Cookie': 'sid=' + token + '; HttpOnly; SameSite=Strict; Path=/; Max-Age=' + SESSION_TTL_MS / 1000 + secureFlag(req),
-      });
+      const token = createCtfSession(username, player);
+      let next = '/stage2.html';
+      const out = { ok: true };
+      if (player) {
+        const entry = Platform.recordSolve(player.id, 'entry');
+        out.platform = { awarded: entry.awarded, points: entry.points || 0, score: entry.score };
+        const { lock } = Platform.progressLock(player.id);
+        applyLock(sessions.get(token), lock);
+        if (lock > 0) next = NEXT_PAGE[lock];
+      }
+      out.redirect = next;
+      return send(res, 200, out, { 'Set-Cookie': sidCookie(req, token, SESSION_TTL_MS / 1000) });
     }
 
     a.count += 1;
@@ -357,7 +446,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && pathname === '/api/logout') {
     const s = getSession(req);
     if (s) sessions.delete(s.token);
-    return send(res, 200, { ok: true }, { 'Set-Cookie': 'sid=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0' + secureFlag(req) });
+    return send(res, 200, { ok: true }, { 'Set-Cookie': sidCookie(req, '', 0) });
   }
 
   if (req.method === 'GET' && pathname === '/api/session') {
@@ -418,13 +507,15 @@ const server = http.createServer(async (req, res) => {
     }
     if (!lock) return send(res, 200, { ok: false, error: 'That flag was not recognised. Check it and try again.' });
 
+    // Scored accounts resume from their saved progress; a pasted flag must not skip ahead of it.
+    if (s.playerId) {
+      const saved = Platform.progressLock(s.playerId).lock;
+      if (lock > saved) {
+        return send(res, 200, { ok: false, error: 'Solve the earlier exhibits on your account first. Your progress is saved automatically.' });
+      }
+    }
     s.accepted = true;
-    if (lock >= 1) { s.solved = true; s.stage2 = true; }
-    if (lock >= 2) { s.solved2 = true; s.stage3 = true; }
-    if (lock >= 3) { s.solved3 = true; s.stage4 = true; }
-    if (lock >= 4) { s.solved4 = true; s.stage5 = true; }   // Exhibit D½ still plays once, then Stage 5 is already open
-    if (lock >= 5) { s.solved5 = true; s.stage6 = true; }
-    if (lock >= 6) { s.solved6 = true; }
+    applyLock(s, lock);
     const next = ['/exhibit-b.html', '/exhibit-c.html', '/exhibit-d.html', '/exhibit-dhalf.html', '/exhibit-f.html', '/epilogue.html'][lock - 1];
     return send(res, 200, { ok: true, lock, redirect: next + '?intro=1' });
   }
@@ -459,7 +550,7 @@ const server = http.createServer(async (req, res) => {
     if (allCorrect) s.solved = true;
 
     const out = { ok: true, results, solved: allCorrect };
-    if (allCorrect) out.flag = ch.flag;
+    if (allCorrect) { out.flag = ch.flag; award(s, 'exhibit_a', out); }
     return send(res, 200, out);
   }
 
@@ -509,6 +600,7 @@ const server = http.createServer(async (req, res) => {
 
     const out = { ok: true, results, solved };
     if (solved && ch.flag) out.flag = ch.flag;
+    if (solved) award(s, 'exhibit_b', out);
     return send(res, 200, out);
   }
 
@@ -722,7 +814,7 @@ const server = http.createServer(async (req, res) => {
     const solved = Object.values(results).every(Boolean);
     if (solved) s.solved3 = true;
     const out = { ok: true, results, solved };
-    if (solved) out.flag = ch.flag;
+    if (solved) { out.flag = ch.flag; award(s, 'exhibit_c', out); }
     return send(res, 200, out);
   }
 
@@ -806,7 +898,7 @@ const server = http.createServer(async (req, res) => {
     const solved = Object.values(results).every(Boolean);
     if (solved) s.solved4 = true;
     const out = { ok: true, results, solved };
-    if (solved) out.flag = ch.flag;
+    if (solved) { out.flag = ch.flag; award(s, 'exhibit_d', out); }
     return send(res, 200, out);
   }
 
@@ -867,7 +959,7 @@ const server = http.createServer(async (req, res) => {
     const solved = Object.values(results).every(Boolean);
     if (solved) s.solved5 = true;
     const out = { ok: true, results, solved };
-    if (solved) out.flag = ch.flag;
+    if (solved) { out.flag = ch.flag; award(s, 'exhibit_e', out); }
     return send(res, 200, out);
   }
 
@@ -920,7 +1012,7 @@ const server = http.createServer(async (req, res) => {
     const solved = Object.values(results).every(Boolean);
     if (solved) s.solved6 = true;
     const out = { ok: true, results, solved };
-    if (solved) out.flag = ch.flag;
+    if (solved) { out.flag = ch.flag; award(s, 'exhibit_f', out); }
     return send(res, 200, out);
   }
 
@@ -1096,11 +1188,17 @@ for (const f of [USERS_FILE, CHALLENGES_FILE]) {
   }
 }
 
-server.listen(PORT, () => console.log('Solstice CTF running at http://localhost:' + server.address().port));
+Platform.init().then(() => {
+  server.listen(PORT, () => console.log('Solstice CTF running at http://localhost:' + server.address().port));
+}).catch((error) => {
+  console.error('Competition platform failed to start:', error);
+  process.exit(1);
+});
 
 function shutdown() {
   server.close(() => {
     PeopleHubDb.closeDb();
+    Platform.shutdown();
     process.exit(0);
   });
   setTimeout(() => process.exit(1), 10000).unref();

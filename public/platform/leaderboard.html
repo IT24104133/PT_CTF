@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leaderboard | rootCapture</title>
+  <meta name="description" content="Live rootCapture leaderboard: top scores and fastest finishers.">
+  <meta name="theme-color" content="#02060d">
+  <link rel="icon" href="/platform/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/platform/platform.css">
+  <script src="/platform/common.js" defer></script>
+  <script src="/platform/leaderboard.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <div class="page-head">
+      <div><h1>Leaderboard</h1><p id="blurb">Ranked by score. Ties go to whoever reached it first.</p></div>
+      <span class="live" id="live"><i></i>Live</span>
+    </div>
+    <section class="panel" aria-label="Rankings">
+      <div class="panel-head">
+        <div class="tabs" role="group" aria-label="Ranking mode">
+          <button type="button" data-mode="overall" aria-pressed="true">Overall</button>
+          <button type="button" data-mode="fastest" aria-pressed="false">Fastest</button>
+        </div>
+        <label class="sr-only" for="q">Search players</label>
+        <input class="search" id="q" type="search" placeholder="Search players" maxlength="40" autocomplete="off">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Rank</th><th scope="col">Operator</th><th scope="col" class="num">Score</th><th scope="col">Progress</th><th scope="col" class="num">Time</th><th scope="col">Status</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="6" class="empty">Loading ...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="count"></span>
+        <div><button class="btn small ghost" id="prev" type="button">Previous</button><button class="btn small ghost" id="next" type="button">Next</button></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

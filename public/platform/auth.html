@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>rootCapture | Advanced Cyber Training Platform</title>
+  <meta name="description" content="rootCapture: read, write, execute. Sign in or register to take on the Solstice capture-the-flag and climb the live leaderboard.">
+  <meta name="theme-color" content="#02060d">
+  <link rel="icon" href="/platform/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/platform/platform.css">
+  <script src="/platform/common.js" defer></script>
+  <script src="/platform/auth.js" defer></script>
+</head>
+<body class="auth-body">
+  <div class="auth-bg" aria-hidden="true"></div>
+  <div class="auth-scan" aria-hidden="true"></div>
+
+  <div class="auth-shell">
+    <div class="hud-top" aria-hidden="true">
+      <span id="boot-state">Initializing ...</span>
+      <span class="bars"><i></i><i></i><i></i></span>
+      <span class="hud-clock" id="hud-clock">00:00:00.000</span>
+    </div>
+
+    <main>
+      <div class="auth-main">
+        <header class="brand-block">
+          <div class="logo">
+            <img src="/platform/logo.svg" alt="">
+            <h1 class="word">rootCapture</h1>
+          </div>
+          <p class="tag">Read, Write, Execute</p>
+          <p class="sub">Advanced Cyber Training Platform</p>
+        </header>
+
+        <div class="core" aria-hidden="true">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="ring r4"></div>
+          <div class="ring r5"></div>
+          <div class="core-label">rootCapture</div>
+          <div class="core-icon"><img src="/platform/logo.svg" alt=""></div>
+        </div>
+
+        <aside class="side-readout" aria-label="Platform readout">
+          <div class="readout box"><span>PLAYERS</span><b id="ro-players">--</b></div>
+          <div class="readout box"><span>CHALLENGES</span><b id="ro-challenges">--</b></div>
+          <div class="mini-chart" id="ro-chart" aria-hidden="true"></div>
+          <span>SCORE DISTRIBUTION</span>
+        </aside>
+      </div>
+
+      <div class="hud-actions">
+        <button class="hud-btn" id="open-login" type="button" aria-expanded="false" aria-controls="auth-panel">LOGIN</button>
+        <button class="hud-btn violet" id="open-register" type="button" aria-expanded="false" aria-controls="auth-panel">REGISTER</button>
+      </div>
+
+      <section class="panel auth-panel" id="auth-panel" hidden aria-live="polite">
+        <form class="form" id="login-form" novalidate hidden>
+          <h2>Operator login</h2>
+          <div class="field">
+            <label for="login-id">Username or email</label>
+            <input id="login-id" name="identifier" autocomplete="username" required maxlength="254">
+            <span class="err" data-for="identifier"></span>
+          </div>
+          <div class="field">
+            <label for="login-pw">Password</label>
+            <div class="pw-wrap">
+              <input id="login-pw" name="password" type="password" autocomplete="current-password" required maxlength="200">
+              <button class="pw-toggle" type="button" data-target="login-pw" aria-pressed="false">Show</button>
+            </div>
+          </div>
+          <p class="form-msg" role="alert" id="login-msg"></p>
+          <button class="btn primary" type="submit" id="login-submit">Access platform</button>
+          <p class="switch">No account yet? <button class="link-btn" type="button" data-switch="register">Register</button></p>
+        </form>
+
+        <form class="form" id="register-form" novalidate hidden>
+          <h2>Create operator account</h2>
+          <div class="field">
+            <label for="reg-user">Username</label>
+            <input id="reg-user" name="username" autocomplete="username" required maxlength="24">
+            <span class="help">3-24 letters, numbers, underscores or hyphens. Shown on the public leaderboard.</span>
+            <span class="err" data-for="username"></span>
+          </div>
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <input id="reg-email" name="email" type="email" autocomplete="email" required maxlength="254">
+            <span class="err" data-for="email"></span>
+          </div>
+          <div class="field">
+            <label for="reg-pw">Password</label>
+            <div class="pw-wrap">
+              <input id="reg-pw" name="password" type="password" autocomplete="new-password" required maxlength="200">
+              <button class="pw-toggle" type="button" data-target="reg-pw" aria-pressed="false">Show</button>
+            </div>
+            <div class="strength" aria-hidden="true"><span id="pw-meter"></span></div>
+            <span class="help">At least 10 characters.</span>
+            <span class="err" data-for="password"></span>
+          </div>
+          <div class="field">
+            <label for="reg-pw2">Confirm password</label>
+            <input id="reg-pw2" name="confirmPassword" type="password" autocomplete="new-password" required maxlength="200">
+            <span class="err" data-for="confirmPassword"></span>
+          </div>
+          <p class="form-msg" role="alert" id="register-msg"></p>
+          <button class="btn primary" type="submit" id="register-submit">Create account</button>
+          <p class="switch">Already registered? <button class="link-btn" type="button" data-switch="login">Login</button></p>
+        </form>
+      </section>
+    </main>
+
+    <section class="status-table" aria-label="Live platform status">
+      <div class="status-banner" id="status-banner">Checking systems ...</div>
+      <table>
+        <thead><tr><th scope="col">NO.</th><th scope="col">OPERATOR</th><th scope="col">SCORE</th><th scope="col">RESULT</th></tr></thead>
+        <tbody id="status-rows"><tr><td colspan="4">Loading ...</td></tr></tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>
