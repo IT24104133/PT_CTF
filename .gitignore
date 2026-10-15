@@ -1,5 +1,10 @@
 # Generated at seed time — rebuild with `npm run seed` / `npm run seed:peoplehub`
 /data/db/*.sqlite
+/data/db/*.sqlite-*
+/node_modules/
+/.deploy-test-*/
+/tools/*.exe
+/.deployment-artifacts/
 /data/users.json
 /data/challenges.json
 /data/evidence/recovered.jpg

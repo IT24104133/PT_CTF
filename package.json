@@ -4,13 +4,15 @@
   "description": "Solstice CTF login page with a JSON user store",
   "main": "src/server.js",
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=22.13.0 <25"
   },
   "scripts": {
     "seed": "node src/seed/outer-seed.js",
     "seed:peoplehub": "node src/seed/seed.js",
     "start": "node src/server.js",
-    "render-start": "bash deploy/render-start.sh"
+    "render-build": "node deploy/render-start.cjs --prepare-only",
+    "render-start": "node deploy/render-start.cjs",
+    "test:deploy": "node --test tests/deployment.test.cjs"
   },
   "license": "UNLICENSED",
   "private": true

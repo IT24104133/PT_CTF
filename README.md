@@ -20,7 +20,7 @@ npm run seed:peoplehub  # PeopleHub: db/peoplehub.sqlite (~1,000 employees, ~30s
 npm start              # http://localhost:3000
 ```
 
-Requires Node 18+ (uses `node:sqlite`, currently experimental — you'll see a harmless
+Requires Node 22.13+; deployment uses Node 24 (uses `node:sqlite`, currently experimental — you'll see a harmless
 `ExperimentalWarning` on startup). No other dependencies; nothing is installed from npm.
 
 ### Environment variables
@@ -35,6 +35,19 @@ Requires Node 18+ (uses `node:sqlite`, currently experimental — you'll see a h
 ---
 
 ## Deployment
+
+### Free hosting with a stable URL
+
+The included [`render.yaml`](render.yaml) creates one **free Render Web Service** in Singapore.
+It runs `npm run render-build` and `npm run render-start`, seeds missing CTF data automatically,
+uses HTTPS cookies, disables the developer reset panel, and exposes `/healthz` for health checks.
+No paid resources are configured. See [`deploy/FREE-HOSTING.md`](deploy/FREE-HOSTING.md) for setup
+and verification instructions.
+
+The URL remains stable while the service is active, but the free service sleeps after 15 minutes
+without traffic. SQLite changes and in-memory player sessions are lost when it sleeps or restarts.
+The initial synthetic dataset is restored on the next boot. This is suitable for a free CTF demo;
+it does not provide durable player progress or guaranteed always-on availability.
 
 ### Hosting it on the internet (recommended path)
 
@@ -75,21 +88,19 @@ Full step-by-step runbook, VPS sizing/provider comparison, backups, and a securi
 
 ### Render, Railway, Fly.io (managed platform — less ops, some trade-offs)
 
-These run your code as a normal persistent process, unlike Vercel (see below) — architecturally
-compatible with this app as-is. On **Render** specifically: create a **Web Service** (not a Static
-Site) from this repo, start command `npm run render-start` (runs
-[`deploy/render-start.sh`](deploy/render-start.sh), which seeds only on first boot, never on a
-redeploy that already has data), Node version pinned via the `engines` field in `package.json`
-(22.5+, for `node:sqlite`).
+These run the Node app as a process, unlike Vercel (see below). On **Render**, use the free
+Blueprint above, or a **Web Service** with build command `npm run render-build` and start command
+`npm run render-start`. [`deploy/render-start.cjs`](deploy/render-start.cjs) prepares missing data
+and preserves it when present. `.node-version` selects Node 24 for `node:sqlite` support.
 
-Two things you must configure, or it breaks:
-- **Attach a persistent disk** mounted at `data/` — otherwise the database resets on every
-  redeploy (Render's default filesystem is ephemeral).
-- **The admin panel will 404 for everyone, including you.** Render's proxy terminates off-host,
-  so `fromLoopback()` never sees a real loopback connection — this fails safely closed rather than
-  exposed (unlike the VPS/Caddy path above, there's no extra config needed to keep it safe, but
-  also no way to reach it from the browser). Reset the database from Render's shell/console
-  instead: `node src/seed/seed.js`.
+- The free service uses ephemeral storage. Paid hosting with a properly configured persistent
+  disk is needed to retain this local SQLite database. Do not mount an empty disk over `data/`
+  without restoring the source schema, challenge files, and evidence images that the mount hides.
+- In-memory sessions and player progress reset on process restart even with a persistent disk.
+- The Blueprint sets `DISABLE_CTF_ADMIN=1`, so the developer panel and reset API return 404 even
+  when a proxy connects from loopback. A fresh deployment resets the free service's dataset.
+- The Blueprint sets `COOKIE_SECURE=1` for both session cookies. Render supplies `RENDER=true`,
+  which enables its forwarded client IP for per-visitor login throttling.
 
 Railway and Fly.io follow the same shape (persistent process + volume + off-host proxy) with their
 own equivalent setup steps.

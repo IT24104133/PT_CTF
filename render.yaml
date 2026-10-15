@@ -1,0 +1,18 @@
+# Free hosting: stable URL, idle sleep, and a fresh dataset after restarts.
+# No paid service or persistent disk is provisioned by this Blueprint.
+services:
+  - type: web
+    name: solstice-ctf
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm run render-build
+    startCommand: npm run render-start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DISABLE_CTF_ADMIN
+        value: "1"
+      - key: COOKIE_SECURE
+        value: "1"

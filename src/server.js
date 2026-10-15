@@ -1,8 +1,9 @@
-// Solstice CTF backend. No dependencies, Node 18+.
+// Solstice CTF backend. No dependencies, Node 22.13+ (node:sqlite).
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { isIP } = require('node:net');
 const N = require('./lib/normalize');
 const F = require('./lib/forensics');
 const HR = require('./lib/hrdb');
@@ -194,6 +195,13 @@ function fromLoopback(req) {
 }
 
 function clientIp(req) {
+  // Render's managed ingress supplies the original client in X-Forwarded-For.
+  // Enable this only inside Render, not for arbitrary direct connections.
+  if (process.env.RENDER === 'true') {
+    const forwarded = req.headers['x-forwarded-for'];
+    const address = typeof forwarded === 'string' ? forwarded.split(',')[0].trim() : '';
+    if (isIP(address)) return address;
+  }
   if (fromLoopback(req)) {
     const cf = req.headers['cf-connecting-ip'];
     if (typeof cf === 'string' && cf.trim()) return cf.trim();
@@ -203,7 +211,12 @@ function clientIp(req) {
 
 // Adds the Secure cookie flag when the visitor reached us over HTTPS through the tunnel.
 function secureFlag(req) {
+  if (process.env.COOKIE_SECURE === '1') return '; Secure';
   return fromLoopback(req) && req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : '';
+}
+
+function adminAllowed(req) {
+  return process.env.DISABLE_CTF_ADMIN !== '1' && fromLoopback(req);
 }
 
 // Returns the live session object (mutable) with its token attached, or null.
@@ -240,6 +253,10 @@ function serveFile(req, res, dir, rel, cache, extraHeaders) {
   }
   const file = path.normalize(path.join(dir, name));
   if (!file.startsWith(dir + path.sep)) return send(res, 403, 'Forbidden');
+  // Check the resolved filename too, so URL-encoded spellings cannot bypass the route guard.
+  if (file.toLowerCase() === path.join(PUBLIC_DIR, 'ctf-admin.html').toLowerCase() && !adminAllowed(req)) {
+    return send(res, 404, 'Not found');
+  }
   fs.readFile(file, (err, data) => {
     if (err) return send(res, 404, 'Not found');
     res.writeHead(200, {
@@ -256,6 +273,17 @@ const server = http.createServer(async (req, res) => {
   const { pathname, searchParams } = new URL(req.url, 'http://localhost');
   const ip = clientIp(req);
   const isRead = req.method === 'GET' || req.method === 'HEAD';
+
+  if (isRead && pathname === '/healthz') {
+    try {
+      loadUsers();
+      loadChallenges();
+      PeopleHubDb.getDb().prepare('SELECT employee_id FROM employees LIMIT 1').get();
+      return send(res, 200, { ok: true });
+    } catch (error) {
+      return send(res, 503, { ok: false });
+    }
+  }
 
   // ----- login / logout / progress -----
   if (req.method === 'POST' && pathname === '/api/login') {
@@ -1020,11 +1048,11 @@ const server = http.createServer(async (req, res) => {
   // itself (loopback only) rather than on any player's game progress, since a developer needs it
   // reachable before a player has even started.
   if (pathname.startsWith('/api/ctf-admin/')) {
-    if (!fromLoopback(req)) return send(res, 404, 'Not found');
+    if (!adminAllowed(req)) return send(res, 404, 'Not found');
     return PeopleHub.handleAdmin(req, res, pathname, searchParams, { send, readJson });
   }
   if (isRead && pathname === '/ctf-admin.html') {
-    if (!fromLoopback(req)) return send(res, 404, 'Not found');
+    if (!adminAllowed(req)) return send(res, 404, 'Not found');
     return serveFile(req, res, PUBLIC_DIR, pathname, 'no-store');
   }
 
@@ -1068,4 +1096,14 @@ for (const f of [USERS_FILE, CHALLENGES_FILE]) {
   }
 }
 
-server.listen(PORT, () => console.log('Solstice CTF running at http://localhost:' + PORT));
+server.listen(PORT, () => console.log('Solstice CTF running at http://localhost:' + server.address().port));
+
+function shutdown() {
+  server.close(() => {
+    PeopleHubDb.closeDb();
+    process.exit(0);
+  });
+  setTimeout(() => process.exit(1), 10000).unref();
+}
+process.once('SIGTERM', shutdown);
+process.once('SIGINT', shutdown);

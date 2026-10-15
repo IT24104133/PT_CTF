@@ -34,10 +34,10 @@ function destroy(token) { sessions.delete(token); }
 function destroyAll() { sessions.clear(); }
 
 function cookieHeader(token) {
-  return 'phsid=' + token + '; HttpOnly; SameSite=Strict; Path=/; Max-Age=' + (TTL_MS / 1000);
+  return 'phsid=' + token + '; HttpOnly; SameSite=Strict; Path=/; Max-Age=' + (TTL_MS / 1000) + (process.env.COOKIE_SECURE === '1' ? '; Secure' : '');
 }
 function clearCookieHeader() {
-  return 'phsid=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0';
+  return 'phsid=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0' + (process.env.COOKIE_SECURE === '1' ? '; Secure' : '');
 }
 
 setInterval(() => {
